@@ -141,11 +141,11 @@ class Admin_model extends MY_Model {
 			$this->db->select('id,status');
 			$this->db->from('urgent_prayer');
 			$this->db->where('deleted_at is null');
-			$data_array  =  $this->db->get();
+			$data_array  =  $this->db->get()->result();
 
-			if (!empty($data_array->result())) {
+			if (!empty($data_array)) {
 				
-				foreach ($data_array->result() as $k => $v) {
+				foreach ($data_array as $k => $v) {
 					$id =  $v->id;
 					
 					$data = array(
