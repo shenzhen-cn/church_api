@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-class Login extends MY_Controller {
+class Login extends My_controller {
 
 	public function __construct()
 	{
