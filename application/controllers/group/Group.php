@@ -453,9 +453,12 @@ class Group extends MY_Controller {
 
 	public function del_prayer()
 	{
-		$prayer_id = $this->post('prayer_id');	
-		$user_id = !empty($this->post('user_id')) ? $this->post('user_id') : "";	
-		$admin_id = !empty($this->post('admin_id')) ? $this->post('admin_id') : "";	
+		$prayer_id = $this->post('prayer_id');
+		$user_id = $this->post('user_id');
+		$admin_id = $this->post('admin_id');
+
+		$user_id = !empty($user_id) ? $user_id : "";	
+		$admin_id = !empty($admin_id) ? $admin_id : "";	
 		$contentStyle = $this->post('contentStyle');	
 
 		$deleted_by = null; $is_admin = 'N';
