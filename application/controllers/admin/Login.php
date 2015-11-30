@@ -53,7 +53,7 @@ class Login extends MY_Controller {
         $admin_id            =   $this->input->post('admin_id');
         $adminHeadSrc        =   $this->input->post('adminHeadSrc');
         $gender              =   $this->input->post('gender');
-        $admin_nick          =   $this->input->post('admin_nick') ? $this->input->post('admin_nick') : "";
+        $admin_nick          =   $this->input->post('admin_nick');
         
         $result = $this->admin_model->improveInformation($admin_id,$adminHeadSrc, $gender, $admin_nick);
             // var_dump($result);exit;

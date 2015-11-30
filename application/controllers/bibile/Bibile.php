@@ -43,11 +43,13 @@ class Bibile extends MY_Controller {
 	public function onlineBibile()
 	{
 		$search_keyword  =	$_REQUEST['search_keyword'];
-		// var_dump($search_keyword);exit;
-		$limit = $this->get('limit') ? $this->get('limit') : self::DEFAULT_LIMIT;
+		$limit = $this->get('limit');
+		$page = $this->get('page');
+
+		$limit = $limit ? $limit : self::DEFAULT_LIMIT;
 		if($limit > self::MAX_LIMIT) $limit = self::DEFAULT_LIMIT;
 
-		$page = $this->get('page') ? $this->get('page') : 1;
+		$page =  $page ? $page : 1;
 		if($page == 0) $page = 1;
 
 		if( ! $total = $this->bibile_model->count_all($search_keyword))
@@ -73,8 +75,8 @@ class Bibile extends MY_Controller {
 
 	public function get_bibile_book_id_by_testament()
 	{
-		$testament = $this->input->get('testament') ? $this->input->get('testament') : "";
-		// var_dump($testament);exit();
+		$testament = $this->input->get('testament');
+		$testament =  $testament ? $testament : "";
 		$results = $this->bibile_model->get_bibile_book_id_by_testament($testament);
 
 		if (!$results) {
@@ -89,8 +91,8 @@ class Bibile extends MY_Controller {
 
 	public function get_bible_section_by_book_id()
 	{
-		$book_id = $this->input->get('book_id') ? $this->input->get('book_id') : "";
-		// var_dump($book_id);exit();
+		
+		$book_id = $this->input->get('book_id');
 		$results = $this->bibile_model->get_bible_section_by_book_id($book_id);
 
 		if (!$results) {

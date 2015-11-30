@@ -18,9 +18,9 @@ class Register extends MY_Controller {
 
 	public function findReUserName()
 	{
-		$op = $this->input->get('op') ? $this->input->get('op') : "" ;
-		$id = $this->input->get('id') ? $this->input->get('id') : "" ;
-		$token = $this->input->get('token') ? $this->input->get('token') : "";
+		$op = $this->input->get('op');
+		$id = $this->input->get('id');
+		$token = $this->input->get('token');
 //		var_dump($token);exit;
 
 		if ($op == 'active' ) {
@@ -320,9 +320,11 @@ class Register extends MY_Controller {
 
 	public function user_registered()
 	{
-		$limit = $this->get('limit') ? $this->get('limit') : self::DEFAULT_LIMIT;
+		$limit = $this->get('limit');
+		$page  = $this->get('page');
+		$limit = $limit ? $limit : self::DEFAULT_LIMIT;
 		if($limit > self::MAX_LIMIT) $limit = self::DEFAULT_LIMIT;
-		$page = $this->get('page') ? $this->get('page') : 1;
+		$page = $page ? $page : 1;
 		if($page == 0) $page = 1;
 
 		$total = $this->user_model->count_user_registeres();    
@@ -343,8 +345,8 @@ class Register extends MY_Controller {
 
 	public function checkCurrentPwd()
 	{
-		$currentPwd  = $this->input->post('currentPwd') ? $this->input->post('currentPwd') : "";
-		$user_id  = $this->input->post('user_id') ? $this->input->post('user_id') : "";
+		$currentPwd  = $this->input->post('currentPwd');
+		$user_id  = $this->input->post('user_id');
 		
 		$is_bool = false;
 

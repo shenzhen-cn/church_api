@@ -14,8 +14,8 @@ class Priest_preach extends MY_Controller
 
     public function add_course_class()
     {   
-        $course_class = $this->input->post('course_class') ? $this->input->post('course_class') : "" ;
-        $admin_id = $this->input->post('admin_id') ? $this->input->post('admin_id') : "" ;
+        $course_class = $this->input->post('course_class');
+        $admin_id = $this->input->post('admin_id');
         // var_dump($admin_id);exit();
         $result = $this->priest_preach_model->add_course_class($course_class,$admin_id);
         // var_dump();exit();
@@ -46,15 +46,15 @@ class Priest_preach extends MY_Controller
 
     public function getContent()
     {
-        $c_p_p_id         = $this->input->post('p_p_c_n_id') ? $this->input->post('p_p_c_n_id') : "" ;
-        $file_name        = $this->input->post('file_name') ? $this->input->post('file_name') : "" ;
-        $full_path        = $this->input->post('full_path') ? $this->input->post('full_path') : "" ;
-        $orig_name        = $this->input->post('orig_name') ? $this->input->post('orig_name') : "" ;
-        $file_size        = $this->input->post('file_size') ? $this->input->post('file_size') : "" ;
-        $admin_id         = $this->input->post('admin_id') ? $this->input->post('admin_id') : "" ;
-        $course_title     = $this->input->post('course_title') ? $this->input->post('course_title') : "" ;
-        $share_from       = $this->input->post('share_from') ? $this->input->post('share_from') : "" ;
-        $course_keys      = $this->input->post('course_keys') ? $this->input->post('course_keys') : "" ;
+        $c_p_p_id         = $this->input->post('p_p_c_n_id');
+        $file_name        = $this->input->post('file_name');
+        $full_path        = $this->input->post('full_path');
+        $orig_name        = $this->input->post('orig_name');
+        $file_size        = $this->input->post('file_size');
+        $admin_id         = $this->input->post('admin_id');
+        $course_title     = $this->input->post('course_title');
+        $share_from       = $this->input->post('share_from');
+        $course_keys      = $this->input->post('course_keys');
         // var_dump($course_keys);exit;
         $result = $this->priest_preach_model->getContent($c_p_p_id,$file_name,$full_path,$orig_name,$file_size,$admin_id,$course_title,$share_from,$course_keys);
         
@@ -74,10 +74,13 @@ class Priest_preach extends MY_Controller
 
     public function get_priest_preach_by_id()
     {
-        $id = $this->input->get('id') ? $this->input->get('id') : "" ;
-        $limit = $this->get('limit') ? $this->get('limit') : self::DEFAULT_LIMIT;
+        $id = $this->input->get('id');
+        $limit = $this->get('limit');
+        $page = $this->get('page');
+
+        $limit =  $limit ? $limit : self::DEFAULT_LIMIT;
         if($limit > self::MAX_LIMIT) $limit = self::DEFAULT_LIMIT;
-        $page = $this->get('page') ? $this->get('page') : 1;
+        $page = $page ? $page : 1;
         if($page == 0) $page = 1;
 
 
@@ -103,7 +106,7 @@ class Priest_preach extends MY_Controller
 
     public function  pp_read_by_id()
     {
-        $id = $this->input->get('id') ? $this->input->get('id') : "" ;
+        $id = $this->input->get('id');
         // echo $id;exit;
         $results = $this->priest_preach_model->pp_read_by_id($id);
         // var_dump($results);exit;
@@ -117,8 +120,8 @@ class Priest_preach extends MY_Controller
 
     public function del_course()
     {
-        $id = $this->input->get('id') ? $this->input->get('id') : "" ;
-        $admin_id = $this->input->get('admin_id') ? $this->input->get('admin_id') : "" ;
+        $id = $this->input->get('id');
+        $admin_id = $this->input->get('admin_id');
 
         $result = $this->priest_preach_model->del_course($id,$admin_id);
         if(is_numeric($result)){
@@ -134,9 +137,9 @@ class Priest_preach extends MY_Controller
 
     public function  getmyEditor()
     {
-        $myEditor       = $this->input->post('myEditor') ? $this->input->post('myEditor') : "" ;
-        $admin_id       = $this->input->post('admin_id') ? $this->input->post('admin_id') : "";
-        $document_id    = $this->input->post('document_id') ? $this->input->post('document_id') : "";
+        $myEditor       = $this->input->post('myEditor');
+        $admin_id       = $this->input->post('admin_id');
+        $document_id    = $this->input->post('document_id');
 
         $result = $this->priest_preach_model->getmyEditor($myEditor,$admin_id,$document_id);
 
@@ -164,8 +167,8 @@ class Priest_preach extends MY_Controller
     
     public function del_document()
     {
-       $id = $this->input->get('id') ? $this->input->get('id') : "" ;
-       $admin_id = $this->input->get('admin_id') ? $this->input->get('admin_id') : "" ;
+       $id = $this->input->get('id');
+       $admin_id = $this->input->get('admin_id');
 
        $result = $this->priest_preach_model->del_document($id,$admin_id);
        // var_dump($result);exit;

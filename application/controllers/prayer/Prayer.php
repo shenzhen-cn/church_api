@@ -13,8 +13,8 @@ class Prayer extends MY_Controller {
 
 	public function get_tq_content_prayer()
 	{	
-        $tq_prayer_id = $this->input->get('tq_prayer_id') ? $this->input->get('tq_prayer_id'): "" ;
-		$user_id = $this->input->get('user_id') ? $this->input->get('user_id'): "" ;
+        $tq_prayer_id = $this->input->get('tq_prayer_id');
+		$user_id = $this->input->get('user_id');
 
 		$result = $this->prayer_model->get_tq_content_prayer($tq_prayer_id,$user_id);
         // var_dump($result);exit;
@@ -28,9 +28,9 @@ class Prayer extends MY_Controller {
 
 	public function send_prayer()
     {
-        $user_id            = $this->input->post('user_id') ? $this->input->post('user_id')  : "";
-        $urgent_prayer_id   = $this->input->post('urgent_prayer_id') ? $this->input->post('urgent_prayer_id') : "" ;
-        $content_prayer     = $this->input->post('content_prayer') ? $this->input->post('content_prayer')  : "";
+        $user_id            = $this->input->post('user_id');
+        $urgent_prayer_id   = $this->input->post('urgent_prayer_id');
+        $content_prayer     = $this->input->post('content_prayer');
 
         $result = $this->prayer_model->send_prayer($user_id,$urgent_prayer_id,$content_prayer);
 
@@ -44,9 +44,9 @@ class Prayer extends MY_Controller {
 
     public function del_payer()
     {
-        $urgent_id = $this->input->get('urgent_id') ? $this->input->get('urgent_id') : "" ;
-        $user_id   = $this->input->get('user_id') ? $this->input->get('user_id') : "" ; 
-        $del_by    = $this->input->get('del_by') ? $this->input->get('del_by') : "" ;
+        $urgent_id = $this->input->get('urgent_id');
+        $user_id   = $this->input->get('user_id'); 
+        $del_by    = $this->input->get('del_by') ;
 
 
         $results = $this->prayer_model->del_payer($urgent_id,$user_id,$del_by);
@@ -64,9 +64,9 @@ class Prayer extends MY_Controller {
 	
     public function send_group_prayer()
     {
-        $user_id                 = $this->input->post('user_id') ? $this->input->post('user_id')  : "";
-        $group_prayer_contents   = $this->input->post('group_prayer_contents') ? $this->input->post('group_prayer_contents') : "" ;
-        $group_prayer_id         = $this->input->post('group_prayer_id') ? $this->input->post('group_prayer_id')  : "";
+        $user_id                 = $this->input->post('user_id');
+        $group_prayer_contents   = $this->input->post('group_prayer_contents');
+        $group_prayer_id         = $this->input->post('group_prayer_id');
 
         $result = $this->prayer_model->send_group_prayer($user_id,$group_prayer_contents,$group_prayer_id);
 
@@ -79,8 +79,8 @@ class Prayer extends MY_Controller {
 
     public function get_group_prayer()
     {
-        $group_prayer_id = $this->input->get('group_prayer_id') ? $this->input->get('group_prayer_id'): "" ;
-        $user_id = $this->input->get('user_id') ? $this->input->get('user_id'): "" ;
+        $group_prayer_id = $this->input->get('group_prayer_id');
+        $user_id = $this->input->get('user_id');
 
         $result = $this->prayer_model->get_group_prayer($group_prayer_id,$user_id);
          // var_dump($result);exit;
@@ -93,9 +93,9 @@ class Prayer extends MY_Controller {
 
     public function del_group_payer()
     {
-        $prayer_for_group_id = $this->input->get('prayer_for_group_id') ? $this->input->get('prayer_for_group_id') : "" ;
-        $user_id   = $this->input->get('user_id') ? $this->input->get('user_id') : "" ; 
-        $del_by    = $this->input->get('del_by') ? $this->input->get('del_by') : "" ;
+        $prayer_for_group_id = $this->input->get('prayer_for_group_id');
+        $user_id   = $this->input->get('user_id'); 
+        $del_by    = $this->input->get('del_by');
 
 
         $results = $this->prayer_model->del_group_payer($prayer_for_group_id,$user_id,$del_by);

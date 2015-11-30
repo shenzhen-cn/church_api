@@ -71,9 +71,12 @@ class Group extends MY_Controller {
 
 	public function groupEdit()
 	{
-		$group_id         = $this->input->post('group_id') ? $this->input->post('group_id') : "";
-		$group_name       = $this->input->post('group_name') ? $this->input->post('group_name') : "";
-		$group_leader_id  = $this->input->post('group_leader_id') ? $this->input->post('group_leader_id') : "";
+		$group_id = $this->input->post('group_id');
+		$group_name = $this->input->post('group_name');
+		$group_leader_id = $this->input->post('group_leader_id');
+		$group_id         =   $group_id ? $group_id : "";
+		$group_name       =   $group_name ? $group_name : "";
+		$group_leader_id  =   $group_leader_id ? $group_leader_id : "";
 		$results          = $this->group_model->groupEdit($group_id,$group_name,$group_leader_id);
 
 		if ( !$results ) {
@@ -88,7 +91,7 @@ class Group extends MY_Controller {
 
 	public function find_group_by_group_id()
 	{
-        $group_id =  $this->input->get('group_id') ? $this->input->get('group_id') : "";
+        $group_id =  $this->input->get('group_id');
 
 		$results = $this->group_model->find_group_by_group_id($group_id);
 		// var_dump($results);exit();
@@ -104,7 +107,7 @@ class Group extends MY_Controller {
 
 	public function find_all_users_by_group_id()
 	{
-        $group_id =  $this->input->get('group_id') ? $this->input->get('group_id') : "";
+        $group_id =  $this->input->get('group_id');
 		$results  = $this->group_model->find_all_users_by_group_id($group_id);
 //		var_dump($results);exit;
 		if (!$results || empty($results)) {
@@ -118,9 +121,10 @@ class Group extends MY_Controller {
 
 	public function spirituality()
 	{
-        $testament =  $this->input->post('testament') ? $this->input->post('testament') : "";
-        $book_id =  $this->input->post('book_id') ? $this->input->post('book_id') : "";
-        $chapter_id =  $this->input->post('chapter_id') ? $this->input->post('chapter_id') : "";
+        $testament = $this->input->post('testament');	
+        $book_id = $this->input->post('book_id') ;      
+        $chapter_id =  $this->input->post('chapter_id');
+
 		$results  = $this->group_model->spirituality($testament,$book_id,$chapter_id);
 		// var_dump($results);exit;
 		if (!$results || empty($results)) {
@@ -135,10 +139,10 @@ class Group extends MY_Controller {
 
 	public function setting_spirituality()
 	{
-		$testament =  $this->input->post('testament') ? $this->input->post('testament') : "";
-		$book_id =  $this->input->post('book_id') ? $this->input->post('book_id') : "";
-		$chapter_id =  $this->input->post('chapter_id') ? $this->input->post('chapter_id') : "";
-		$group_id =  $this->input->post('group_id') ? $this->input->post('group_id') : "";
+		$testament =  $this->input->post('testament');
+		$book_id =  $this->input->post('book_id');
+		$chapter_id =  $this->input->post('chapter_id');
+		$group_id =  $this->input->post('group_id');
 
 		$results  = $this->group_model->setting_spirituality($testament,$book_id,$chapter_id,$group_id);
 		// var_dump($results);exit();
@@ -185,9 +189,9 @@ class Group extends MY_Controller {
 
 	public function del_user_spirituality()
 	{
-		$s_id    = $this->input->post('s_id') ? $this->input->post('s_id') : "" ;
-		$s_u_id    = $this->input->post('s_u_id') ? $this->input->post('s_u_id') : "" ;
-		$user_id = $this->input->post('user_id') ? $this->input->post('user_id') : "" ;
+		$s_id    = $this->input->post('s_id');
+		$s_u_id    = $this->input->post('s_u_id');
+		$user_id = $this->input->post('user_id');
 			// var_dump($s_id);exit();
 		$results =  $this->group_model->del_user_spirituality($s_id,$s_u_id,$user_id);
 
@@ -201,13 +205,15 @@ class Group extends MY_Controller {
 
 	public function check_nextday()
 	{
-		$group_id = $this->input->get('group_id') ? $this->input->get('group_id') : "";
+		$group_id = $this->input->get('group_id');
 		$user_info = $this->group_model->find_all_users_by_group_id($group_id);
-		$day = $this->input->get('day') ? $this->input->get('day') : "";
+		$day = $this->input->get('day');
+
+		$day = $day ? $day : "";
+
 		$today = date("Y-m-d",$day); 
 		$lastday  =  date("Y-m-d",$day-24*3600);
 		$date= null;
-// var_dump($user_info);exit();
 		$results =  $this->group_model->check_nextday($group_id,$today,$lastday,$user_info['data_array']);
 		// var_dump($results);exit();
 
@@ -235,16 +241,10 @@ class Group extends MY_Controller {
 	}
 
 	public function find_week_s_report()
-	{
-		$group_id = $this->input->get('group_id') ? $this->input->get('group_id') : "" ;
+	{	
+		$group_id = $this->input->get('group_id');
+		$group_id =  $group_id ? $group_id : "" ;
 
-		// $user_info = $this->group_model->find_all_users_by_group_id($group_id);
-		// $user_info = isset($user_info['data_array']) ? $user_info['data_array'] : "" ; 
-		// var_dump($user_info);exit;
-		// $week      =  $this->get_week_days($regtime);
-
-		// $results =  $this->group_model->find_week_s_report($group_id,$user_info,$week );
-		// var_dump($results);exit;
 		$regtime   =  date("Y-m-d",time());
 		$this_week_monday = $this->this_monday(0,false);
 		$this_week_sunday = $this->this_sunday(0,false);		
@@ -270,8 +270,8 @@ class Group extends MY_Controller {
 	
 	public function setting_group_prayer()
 	{
-        $group_prayer_content = $this->input->post('group_prayer_content') ? $this->input->post('group_prayer_content') : ""; 
-        $group_id = $this->input->post('group_id') ? $this->input->post('group_id') : ""; 
+        $group_prayer_content = $this->input->post('group_prayer_content'); 
+        $group_id = $this->input->post('group_id'); 
         // var_dump($group_id);exit;
         $results = $this->group_model->setting_group_prayer($group_prayer_content,$group_id);
         // var_dump($results);exit();
@@ -287,8 +287,8 @@ class Group extends MY_Controller {
 
 	public function get_today_group_prayer()
 	{
-
-		$group_id = $this->input->get('group_id') ? $this->input->get('group_id') : "";
+		$group_id = $this->input->get('group_id');
+		$group_id =  $group_id ? $group_id : "";
 
 		$results = $this->group_model->get_today_group_prayer($group_id);
 //		var_dump($results);exit;
@@ -305,12 +305,13 @@ class Group extends MY_Controller {
 	{
 		$group_user_id  = $this->get('group_user_id');
 		$user_id        = $this->get('user_id');
-		$count          = $this->get('count') ? $this->get('count') : 5;
-		// $page           = $this->get('page')
-
-		$limit = $this->get('limit') ? $this->get('limit') : self::DEFAULT_LIMIT;
+		$count = $this->get('count');	
+		$count          =  $count ? $count : 5;
+		$limit = $this->get('limit');	
+		$limit = $limit ? $limit : self::DEFAULT_LIMIT;
 		if($limit > self::MAX_LIMIT) $limit = self::DEFAULT_LIMIT;
-		$page = $this->get('page') ? $this->get('page') : 1;
+		$page = $this->get('page');
+		$page = $page ? $page : 1;
 		if($page == 0) $page = 1;
 
 		//ÁéÐÞ

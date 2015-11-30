@@ -50,8 +50,8 @@ class Fellowship_life extends MY_Controller {
 
     public function save_data()
     {
-        $album_id     = $this->input->post('album_id') ? $this->input->post('album_id') : ""  ;
-        $paths        = $this->input->post('paths') ? $this->input->post('paths') : ""  ;
+        $album_id     = $this->input->post('album_id');
+        $paths        = $this->input->post('paths');
         $user_id      = $this->post('user_id');
 
         $insert_id = $this->fellowship_life_model->save_data($album_id,$paths);
@@ -79,7 +79,7 @@ class Fellowship_life extends MY_Controller {
 
     public function group_albums()
     {
-        $group_id        = $this->input->get('group_id') ? $this->input->get('group_id') : ""  ;
+        $group_id        = $this->input->get('group_id');
 
         $results = $this->fellowship_life_model->group_albums($group_id);
         // var_dump($results);exit;
@@ -95,7 +95,7 @@ class Fellowship_life extends MY_Controller {
 
     public function see_user_albums()
     {
-        $user_id        = $this->input->get('user_id') ? $this->input->get('user_id') : ""  ;
+        $user_id        = $this->input->get('user_id');
 
         $results = $this->fellowship_life_model->see_user_albums($user_id);
         // var_dump($results);exit;
@@ -110,11 +110,15 @@ class Fellowship_life extends MY_Controller {
 
     public function see_user_photos()
     {
-        $album_id        = $this->input->get('album_id') ? $this->input->get('album_id') : ""  ;
-        $user_id         = $this->input->get('user_id') ? $this->input->get('user_id') : ""  ;
-        $limit = $this->get('limit') ? $this->get('limit') : self::DEFAULT_LIMIT;
+        $album_id        = $this->input->get('album_id');
+        $user_id         = $this->input->get('user_id');
+        $limit = $this->get('limit');
+
+        $limit = $limit ? $limit : self::DEFAULT_LIMIT;
         if($limit > self::MAX_LIMIT) $limit = self::DEFAULT_LIMIT;
-        $page = $this->get('page') ? $this->get('page') : 1;
+        $page = $this->get('page');
+        $page = $page ? $page : 1;
+
         if($page == 0) $page = 1;
 
         $total = $this->fellowship_life_model->count_user_photos_by_album_id($album_id);
@@ -159,9 +163,9 @@ class Fellowship_life extends MY_Controller {
 
     public function del_photos()
     {
-        $src_id        = $this->input->get('src_id') ? $this->input->get('src_id') : ""  ;
-        $user_id       = $this->input->get('user_id') ? $this->input->get('user_id') : ""  ;
-        $admin_id      = $this->input->get('admin_id') ? $this->input->get('admin_id') : ""  ;
+        $src_id        = $this->input->get('src_id') ;
+        $user_id       = $this->input->get('user_id');
+        $admin_id      = $this->input->get('admin_id');
         $results       = $this->fellowship_life_model->del_photos($src_id,$user_id,$admin_id);
 
         if(is_numeric($results)){
@@ -192,10 +196,14 @@ class Fellowship_life extends MY_Controller {
     }
 
     public function get_today_user_photos()
-    {    
-        $limit = $this->get('limit') ? $this->get('limit') : self::DEFAULT_LIMIT;
+    {  
+        $limit = $this->get('limit') ;
+
+        $limit = $limit ? $limit : self::DEFAULT_LIMIT;
+
         if($limit > self::MAX_LIMIT) $limit = self::DEFAULT_LIMIT;
-        $page = $this->get('page') ? $this->get('page') : 1;
+        $page = $this->get('page');
+        $page = $page ? $page : 1;
         if($page == 0) $page = 1;
 
         $total = $this->fellowship_life_model->count_user_photos();

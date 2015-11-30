@@ -13,12 +13,12 @@ class User extends MY_Controller {
 
 	public function send_spirituality()
 	{	
-		$gold_sentence = $this->input->post('gold_sentence') ? $this->input->post('gold_sentence') : "";
-        $heart_feeling = $this->input->post('heart_feeling') ? $this->input->post('heart_feeling') : "";
-        $response = $this->input->post('response') ? $this->input->post('response') : "";
-        $chapter_id = $this->input->post('current_chapter_id') ? $this->input->post('current_chapter_id') : "";
-        $book_id = $this->input->post('current_book_id') ? $this->input->post('current_book_id') : "";
-		$user_id = $this->input->post('user_id') ? $this->input->post('user_id') : "";
+		$gold_sentence = $this->input->post('gold_sentence');
+        $heart_feeling = $this->input->post('heart_feeling');
+        $response = $this->input->post('response');
+        $chapter_id = $this->input->post('current_chapter_id');
+        $book_id = $this->input->post('current_book_id');
+		$user_id = $this->input->post('user_id');
 
 		$result = $this->user_model->send_spirituality($gold_sentence,$heart_feeling,$response,$chapter_id,$book_id,$user_id);
 
@@ -57,7 +57,7 @@ class User extends MY_Controller {
 
     public function  find_user_spirituality()
     {
-        $group_id = $this->input->get('group_id') ? $this->input->get('group_id') : "" ;
+        $group_id = $this->input->get('group_id');
         $this->load->model('group/group_model');
         $count_users_group = null;
         if (!empty($group_id)) {            
@@ -65,9 +65,9 @@ class User extends MY_Controller {
             $count_users_group = count($get_group_users);
         }
         
-        $user_id = $this->input->get('user_id') ? $this->input->get('user_id') : "" ;
-        $chapter_id = $this->input->get('chapter_id') ? $this->input->get('chapter_id') : "" ;
-        $book_id = $this->input->get('book_id') ? $this->input->get('book_id') : "" ;
+        $user_id = $this->input->get('user_id');
+        $chapter_id = $this->input->get('chapter_id');
+        $book_id = $this->input->get('book_id');
         $results = $this->user_model->find_user_spirituality($group_id,$chapter_id,$book_id,$user_id);
 
         $is_spirituality  = $this->user_model->find_user_is_spirituality($user_id);

@@ -16,9 +16,13 @@ class Admin_setting extends MY_Controller {
 
 	public function home_inform()
 	{	
-		$home_inform = $this->input->post('home_inform') ? $this->input->post('home_inform') : "" ;
-        $admin_id = $this->input->post('admin_id') ? $this->input->post('admin_id') : ""; 
-        $home_inform_days = $this->input->post('home_inform_days') ? $this->input->post('home_inform_days') : "1";
+        $home_inform = $this->input->post('home_inform');
+        $admin_id    = $this->input->post('admin_id');
+        $home_inform_days = $this->input->post('home_inform_days');
+
+		    $home_inform = $home_inform ? $home_inform : "" ;
+        $admin_id =  $admin_id ? $admin_id : ""; 
+        $home_inform_days =  $home_inform_days ? $home_inform_days : "1";
 
 
         $results = $this->admin_model->home_inform($home_inform,$admin_id,$home_inform_days);
@@ -60,9 +64,13 @@ class Admin_setting extends MY_Controller {
 
     public function  urgentPrayer()
     {
-        $urgent_prayer_days = $this->input->post('urgent_prayer_days') ? $this->input->post('urgent_prayer_days') : '1';
-        $urgent_prayer_content = $this->input->post('urgent_prayer_content') ?  $this->input->post('urgent_prayer_content') : "";
-        $admin_id = $this->input->post('admin_id') ? $this->input->post('admin_id') : "";
+        $urgent_prayer_days    = $this->input->post('urgent_prayer_days');
+        $urgent_prayer_content = $this->input->post('urgent_prayer_content');
+        $admin_id              = $this->input->post('admin_id');
+
+        $urgent_prayer_days =  $urgent_prayer_days ?  $urgent_prayer_days: '1';
+        $urgent_prayer_content =  $urgent_prayer_content ?  $urgent_prayer_content : "";
+        $admin_id = $admin_id ? $admin_id : "";
 
         $results = $this->admin_model->urgentPrayer($urgent_prayer_days,$urgent_prayer_content,$admin_id);
         // var_dump($results);exit();
@@ -105,7 +113,10 @@ class Admin_setting extends MY_Controller {
     
    public function find_spirituality()
    {
-       $group_id = $this->input->get('group_id') ? $this->input->get('group_id') : "" ;    
+       $group_id = $this->input->get('group_id');
+
+       $group_id = $group_id ? $group_id : "" ;    
+
        $get_book_chapter_id = $this->admin_model->find_spirituality($group_id);
        if (! $get_book_chapter_id) {
 
@@ -127,8 +138,12 @@ class Admin_setting extends MY_Controller {
 
    public function checkCurrentadminPwd()
    {
-       $currentPwd  = $this->input->post('currentPwd') ? $this->input->post('currentPwd') : "";
-       $admin_id    = $this->input->post('admin_id') ? $this->input->post('admin_id') : "";
+       $currentPwd = $this->input->post('currentPwd');
+       $admin_id = $this->input->post('admin_id');
+
+       $currentPwd  = $currentPwd ? $currentPwd : "";
+
+       $admin_id    =  $admin_id ? $admin_id : "";
        
        $is_bool = false;
 
@@ -228,11 +243,17 @@ class Admin_setting extends MY_Controller {
 
 
    public function search_bibile()
-   {
-      $testament      =  $this->input->post('testament') ? $this->input->post('testament') : "";
-      $book_id        =  $this->input->post('book_id') ? $this->input->post('book_id') : "";
-      $chapter_id     =  $this->input->post('chapter_id') ? $this->input->post('chapter_id') : "";
-      $form_key       =  $this->input->post('form_key') ? $this->input->post('form_key') : "" ;
+   {  
+      $testament   = $this->input->post('testament');
+      $book_id     = $this->input->post('book_id');
+      $chapter_id  = $this->input->post('chapter_id');
+      $form_key    = $this->input->post('form_key');
+
+      $testament      =  $testament ? $testament : "";
+      $book_id        =  $book_id ? $book_id : "";
+      $chapter_id     =   $chapter_id ? $chapter_id : "";
+
+      $form_key       =   $form_key ? $form_key : "" ;
 
       $results  = $this->admin_model->search_bibile($testament,$book_id,$chapter_id,$form_key);
 
