@@ -85,9 +85,10 @@ if (! function_exists("smtp_mail"))
 	    // 邮件主题    
 	    $mail->Subject = $subject.date('Y-m-d H:i:s');
 	    if(!empty($isadmin) && $isadmin == 'Y'){
-			$mail_url = "<a href='http://localhost/church_admin/index.php/resetPwd?op=$active&id=$id&token=$token'>"." http://localhost/church_admin/index.php/resetPwd?op=$active&id=$id&token=$token</a>";
+	    	// http://133.130.52.221/church_admin/index.php
+			$mail_url = "<a href='http://133.130.52.221/church_admin/index.php/resetPwd?op=$active&id=$id&token=$token'>"." http://localhost/church_admin/index.php/resetPwd?op=$active&id=$id&token=$token</a>";
 	    }else{
-			$mail_url = "<a href='http://localhost/church_user/index.php/register?op=$active&id=$id&token=$token'>"." http://localhost/church_user/index.php/register?op=$active&id=$id&token=$token</a>";
+			$mail_url = "<a href='http://133.130.52.221/church_user/index.php/register?op=$active&id=$id&token=$token'>"." http://localhost/church_user/index.php/register?op=$active&id=$id&token=$token</a>";
 	    }
 
 	    $str1 = null;
