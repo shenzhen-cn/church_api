@@ -8,7 +8,7 @@ $query_builder = TRUE;
 // $dbName = "192.168.1.105";
 $dbName = "localhost";
 $dbUser = "root";
-$dbPassword = "";
+$dbPassword = "root";
 
 
 $db['default'] = array(

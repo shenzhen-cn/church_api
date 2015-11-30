@@ -146,47 +146,67 @@ class Group_model extends MY_Model {
 			// var_dump($data->result_array());exit();
 			foreach($data->result_array() as $row_cer){
 				$user_id = $row_cer['user_id'];
-					// var_dump($user_id);exit();
+
 				if ($user_id > 0 ) {
 
-					$sql= ' 
-							SELECT 
-							    user.id AS user_id, nick, group_id, userHead_src,sex,user.created_at
-							FROM
-							    church.user
-							        LEFT JOIN
-							    church.`group` ON `group`.id = user.group_id
-							        LEFT JOIN
-							    church.userHead_src ON userHead_src.user_id = user.id
-							WHERE
-							    (update_at = (SELECT 
-							            MAX(update_at)
-							        FROM
-							            church.userHead_src            
-							        WHERE
-							            user_id = '.$user_id.' AND deleted_at IS NULL))
-							        AND user.deleted_at IS NULL AND `group`.deleted_at IS NULL AND userHead_src.deleted_at IS NULL and user.group_id = '.$group_id;
-						$data1 = $this->db->query($sql);      
-					foreach ($data1->result_array() as $row_cer2) {
-						$row_cer['userHead_src'] = $row_cer2['userHead_src'];
-						$row_cer['created_at'] = $row_cer2['created_at'];
-						$row_cer['sex'] = $row_cer2['sex'];
+					$data1 = $this->get_user_all_info($user_id);
+//					var_dump($data1);exit();
+//					$sql= '
+//							SELECT
+//							    user.id AS user_id, nick, group_id, userHead_src,sex,user.created_at
+//							FROM
+//							    church.user
+//							        LEFT JOIN
+//							    church.`group` ON `group`.id = user.group_id
+//							        LEFT JOIN
+//							    church.userhead_src ON userhead_src.user_id = user.id
+//							WHERE
+//							    (update_at = (SELECT
+//							            MAX(update_at)
+//							        FROM
+//							            church.userhead_src
+//							        WHERE
+//							            user_id = '.$user_id.' AND deleted_at IS NULL))
+//							        AND user.deleted_at IS NULL AND `group`.deleted_at IS NULL AND userhead_src.deleted_at IS NULL and user.group_id = '.$group_id;
+//						$data1 = $this->db->query($sql)->result();
 
-						$this->db->select('count(*) as count_spirituality');	
-						$this->db->from('spirituality');
-						$this->db->where('user_id ', $user_id );
-						$this->db->where('deleted_at  is  null');
-						$data2 = $this->db->get()->first_row();
-						$row_cer['count_spirituality'] = $data2->count_spirituality;
-						$data_array[] = $row_cer;
-						
+//					echo $sql;exit;
+//				var_dump($data1);exit;
+					if(!empty($data1)){
+						$row_cer['userHead_src'] = $data1['userHead_src'];
+						$row_cer['created_at']   = $data1['user_created_at'];
+						$row_cer['sex'] = $data1['sex'];
+
+//						var_dump($row_cer);exit;
+//							var_dump($data1);exit;
+//						foreach ($data1 as $row_cer2) {
+//							if(!empty($row_cer2['userHead_src'])){
+//
+//								$row_cer['userHead_src'] = $row_cer2['userHead_src'];
+//							}
+//							var_dump($row_cer);exit;
+//							$row_cer['created_at'] = $row_cer2['created_at'];
+//							$row_cer['sex'] = $row_cer2['sex'];
+//
+							$this->db->select('count(*) as count_spirituality');
+							$this->db->from('spirituality');
+							$this->db->where('user_id ', $user_id );
+							$this->db->where('deleted_at  is  null');
+							$data2 = $this->db->get()->first_row();
+//							var_dump($data2);exit;
+							$row_cer['count_spirituality'] = $data2->count_spirituality;
+							$data_array[] = $row_cer;
+//						}
+
+//						var_dump();exit;
 					}
 
+//					echo "end";exit;
 				}
 
-			}			
-
-		     $data_array = $this->arraySort($data_array, 'count_spirituality', 'desc');
+			}
+//			var_dump($data_array);exit;
+			$data_array = $this->arraySort($data_array, 'count_spirituality', 'desc');
 
 			return $data_return = array(
 				'group_name' => $group_name,
@@ -834,7 +854,8 @@ class Group_model extends MY_Model {
 
 	private function _get_group_attence($group_id,$start_date,$end_date){
 		$users = $this->find_all_users_by_group_id($group_id);
-
+//		var_dump('sdfsdf');exit;
+//		var_dump($users);exit;
 		$counter = 0;
 		for ($i=0; $i < count($users['data_array']); $i++) { 
 			$joinDate = date('Y-m-d',strtotime($users['data_array'][$i]['created_at']));		

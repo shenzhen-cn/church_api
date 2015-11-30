@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class My_model extends CI_Model
+class MY_Model extends CI_Model
 {
     	
     function __construct()
@@ -75,7 +75,7 @@ class My_model extends CI_Model
 
 	public function get_user_all_info($user_id)
 	{
-		$this->db->select('user.id as user_id ,email ,nick,group_id,group_name,user.created_at as user_created_at ');
+		$this->db->select('user.id as user_id ,email ,sex, nick,group_id,group_name,user.created_at as user_created_at ');
 		$this->db->from('user');
 		$this->db->join('group', 'group.id = user.group_id', 'left');
 		$this->db->where('user.id', $user_id);
@@ -86,6 +86,7 @@ class My_model extends CI_Model
 		if(!empty($arr1)) {			
 			return  array(
 					'user_id' => $arr1->user_id,
+				    'sex' => $arr1->sex,
 					'email' => $arr1->email,
 					'nick' => $arr1->nick,
 					'userHead_src' => isset($arr2->userHead_src) ? $arr2->userHead_src : "",
@@ -104,14 +105,14 @@ class My_model extends CI_Model
 	{
 		$data_return  = array();
 		$this->db->select('max(update_at) as update_at');
-		$this->db->from('church.userHead_src');
+		$this->db->from('church.userhead_src');
 		$this->db->where('user_id' ,$user_id);
 		$this->db->where('deleted_at is null');
 		$update_at = $this->db->get()->first_row();
 		if (isset($update_at) && ! empty($update_at) && ! empty($user_id)) {
 			
 			$this->db->select('id,userHead_src');
-			$this->db->from('church.userHead_src');
+			$this->db->from('church.userhead_src');
 			$this->db->where('user_id' ,$user_id);
 			$this->db->where('update_at' ,$update_at->update_at);
 			$this->db->where('deleted_at is null');
@@ -163,24 +164,25 @@ class My_model extends CI_Model
 		$data_return  = array();
 
 		$this->db->select('max(update_at) as update_at');
-		$this->db->from('church.adminHead_src');
+		$this->db->from('church.adminhead_src');
 		$this->db->where('admin_id' ,$admin_id);
 		$this->db->where('deleted_at is null');
 		$update_at = $this->db->get()->first_row();
+//		var_dump($update_at);exit;
+		if(!empty($update_at)){
+			if (isset($update_at) && ! empty($update_at) && ! empty($admin_id)) {
 
-		if (isset($update_at) && ! empty($update_at) && ! empty($admin_id)) {
-			
-			$this->db->select('id,adminHead_src');
-			$this->db->from('church.adminHead_src');
-			$this->db->where('admin_id' ,$admin_id);
-			$this->db->where('update_at' ,$update_at->update_at);
-			$this->db->where('deleted_at is null');
-			$data_return = $this->db->get()->first_row();
-			return $data_return;
+				$this->db->select('id,adminHead_src');
+				$this->db->from('church.adminhead_src');
+				$this->db->where('admin_id' ,$admin_id);
+				$this->db->where('update_at' ,$update_at->update_at);
+				$this->db->where('deleted_at is null');
+				$data_return = $this->db->get()->first_row();
 
-		}else{
-			return false;
+			}
 		}
-		
+
+		return $data_return;
+
 	}
 }

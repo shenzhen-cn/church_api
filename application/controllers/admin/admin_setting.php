@@ -8,8 +8,8 @@ class Admin_setting extends MY_Controller {
 	{
 		parent::__construct();
 		$this->load->model('admin/admin_model');
-    $this->load->helper('date');
-    $this->load->helper('util');
+        $this->load->helper('date');
+        $this->load->helper('util');
     
 
 	}
@@ -37,6 +37,7 @@ class Admin_setting extends MY_Controller {
     {
         $results = $this->admin_model->find_home_inform();
 
+//        var_dump($results);exit;
         if (empty($results)) {
 
             $this->response( array('status_code' =>400 ));
@@ -72,6 +73,8 @@ class Admin_setting extends MY_Controller {
         }
 
         $this->response(array('status_code'=> 200,'results' => $results));
+        
+
 
 
     }

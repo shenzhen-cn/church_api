@@ -17,11 +17,12 @@ class Register extends MY_Controller {
 	}
 
 	public function findReUserName()
-	{	
+	{
 		$op = $this->input->get('op') ? $this->input->get('op') : "" ;
 		$id = $this->input->get('id') ? $this->input->get('id') : "" ;
 		$token = $this->input->get('token') ? $this->input->get('token') : "";
-		
+//		var_dump($token);exit;
+
 		if ($op == 'active' ) {
 			
 			$find_re_user_by_token = $this->user_model->find_id_by_token($token);
@@ -120,7 +121,7 @@ class Register extends MY_Controller {
 	public function addPersonal()
 	{
 		$re_user_email = $this->input->post('re_user_email');
-		// var_dump($re_user_email);exit();
+//		var_dump($re_user_email);exit();
 		$admin_id = $this->input->post('admin_id');
 		$active = 'active';
 		$regtime  =  date("Y-m-d H:i:s",time());
@@ -238,19 +239,20 @@ class Register extends MY_Controller {
 		$currentPwd 			= 	$this->input->post('currentPwd');
 		$confirmNewPwd 			= 	$this->input->post('confirmNewPwd');
 		$user_email   			=   $this->input->post('user_email');
+//		var_dump($user_email);exit;
 		$active = 'resetpwd';
 
 		if (isset($user_email) && ! empty($user_email)) {
 
 			$is_del_user  = $this->user_model->is_deleted_user($user_email);
-
-			if (!empty($is_del_user) || !$is_del_user) {
+//			var_dump(!$is_del_user);exit;
+			if (!empty($is_del_user)) {
 				$this->response(array('status_code' => 400,'message' =>'用户名不存在！'));
 				return;
 			}
 
 			$is_exist_user_id = $this->user_model->find_user_email_is_exist($user_email);
-
+//			var_dump($is_exist_user_id);exit;
 			if (empty($is_exist_user_id) || !$is_exist_user_id) {
 				$this->response(array('status_code' => 400,'message' =>'用户名不存在！'));
 				return;

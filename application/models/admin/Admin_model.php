@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Admin_model extends My_model {
+class Admin_model extends MY_Model {
 	
 	public function __construct()
 	{
@@ -68,7 +68,7 @@ class Admin_model extends My_model {
 			$this->db->set('created_at', mdate('%Y-%m-%d %H:%i:%s', now()));
 			$this->db->set('update_at', mdate('%Y-%m-%d %H:%i:%s', now()));
 
-			$this->db->insert('adminHead_src');
+			$this->db->insert('adminhead_src');
 			
 			// echo $this->db->last_query();exit;
 			
@@ -126,7 +126,7 @@ class Admin_model extends My_model {
 
 	public function find_home_inform()
 	{
-		// var_dump("expression");exit();
+//		 var_dump("expression");exit();
 		$this->db->select('id,home_inform_content,overdue_at,create_at');
 		$this->db->from('home_inform');
 		$this->db->where('deleted_at is null');

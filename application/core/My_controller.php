@@ -1,6 +1,6 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
-class My_controller extends CI_Controller
+class MY_Controller extends CI_Controller
 {
 	private $output_formats = array(
 			'json' 	=> 'application/json'

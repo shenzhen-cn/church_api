@@ -32,7 +32,9 @@ class Prayer_model extends MY_Model {
 
 				$user_id1 = $row_cer['user_id'];
 				$HeadSrc  = $this->tq_header_info_model->finduserHeadSrc($user_id1);
-				$row_cer['userHeadSrc'] = $HeadSrc->userHead_src;
+				if(!empty($HeadSrc)){
+					$row_cer['userHeadSrc'] = $HeadSrc->userHead_src;
+				}
 
 				if ($user_id == $user_id1 ) {
 					$is_send = 'Y';
@@ -159,7 +161,9 @@ class Prayer_model extends MY_Model {
 
 				$user_id1 = $row_cer['user_id'];
 				$HeadSrc  = $this->tq_header_info_model->finduserHeadSrc($user_id1);
-				$row_cer['userHeadSrc'] = $HeadSrc->userHead_src;
+				if(!empty($HeadSrc)){
+					$row_cer['userHeadSrc'] = $HeadSrc->userHead_src;
+				}
 				// var_dump($row_cer['userHeadSrc']);exit();
 
 				if ($user_id == $user_id1 ) {
@@ -213,17 +217,23 @@ class Prayer_model extends MY_Model {
 		$this->db->order_by('urgent_id', 'desc');
 		$data1 =  $this->db->get()->result_array();
 
-		foreach ($data1 as $row_cer) {
-			$user_id1 = $row_cer['user_id'];
-			$HeadSrc  = $this->tq_header_info_model->finduserHeadSrc($user_id1);
-			$row_cer['userHeadSrc'] = $HeadSrc->userHead_src;
+		if(!empty($data1)){
 
-			$created_at = $row_cer['created_at'];
-			$row_cer['conversion_time'] = $this->tranTime(strtotime($created_at));	
+			foreach ($data1 as $row_cer) {
+				$user_id1 = $row_cer['user_id'];
+				$HeadSrc  = $this->tq_header_info_model->finduserHeadSrc($user_id1);
+//				var_dump($HeadSrc);exit;
+				if(!empty($HeadSrc)){
+					$row_cer['userHeadSrc'] = $HeadSrc->userHead_src;
+				}
 
-        	$data_return1[] = $row_cer; 
+				$created_at = $row_cer['created_at'];
+				$row_cer['conversion_time'] = $this->tranTime(strtotime($created_at));
+
+				$data_return1[] = $row_cer;
+			}
 		}
-		
+
 		$data_return2 = array();
 		$this->db->select('prayer_for_group.id as group_prayer_id ,prayer_for_group.created_at, group_prayer_contents,prayer_for_group.user_id,nick');
 		$this->db->from('prayer_for_group');
@@ -237,7 +247,10 @@ class Prayer_model extends MY_Model {
 		foreach ($data2 as $row_cer) {
 			$user_id1 = $row_cer['user_id'];
 			$HeadSrc  = $this->tq_header_info_model->finduserHeadSrc($user_id1);
-			$row_cer['userHeadSrc'] = $HeadSrc->userHead_src;
+			if(!empty($HeadSrc)){
+
+				$row_cer['userHeadSrc'] = $HeadSrc->userHead_src;
+			}
 
 			$created_at = $row_cer['created_at'];
 			$row_cer['conversion_time'] = $this->tranTime(strtotime($created_at));	

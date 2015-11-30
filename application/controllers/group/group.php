@@ -18,6 +18,7 @@ class Group extends MY_Controller {
 	{
 		
 		$groupName = $this->input->post('addGroupName');
+//		var_dump($groupName);exit;
 		$admin_id  = $this->input->post('admin_id');
 
 	    $group_id = $this->group_model->addGroup($groupName,$admin_id);	  
@@ -105,6 +106,7 @@ class Group extends MY_Controller {
 	{
         $group_id =  $this->input->get('group_id') ? $this->input->get('group_id') : "";
 		$results  = $this->group_model->find_all_users_by_group_id($group_id);
+//		var_dump($results);exit;
 		if (!$results || empty($results)) {
 			$this->response(array('status_code'=> 400 ));
 			return;
@@ -286,9 +288,10 @@ class Group extends MY_Controller {
 	public function get_today_group_prayer()
 	{
 
-		$group_id = $this->input->get('group_id') ? $this->input->get('group_id') : ""; 
+		$group_id = $this->input->get('group_id') ? $this->input->get('group_id') : "";
 
 		$results = $this->group_model->get_today_group_prayer($group_id);
+//		var_dump($results);exit;
 		if (!$results) {
 
 		    $this->response( array('status_code' =>400 ));

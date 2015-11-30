@@ -91,7 +91,7 @@ class User_model extends MY_Model {
 			$this->db->set('created_at', mdate('%Y-%m-%d %H:%i:%s', now()));
 			$this->db->set('update_at', mdate('%Y-%m-%d %H:%i:%s', now()));
 
-			$this->db->insert('userHead_src');					
+			$this->db->insert('userhead_src');
 			$data_return['userHead_src_id'] = $this->db->insert_id();
 
 
@@ -733,18 +733,18 @@ class User_model extends MY_Model {
 		$data_return  = array();
 
 		$this->db->select('max(update_at) as update_at');
-		$this->db->from('church.userHead_src');
+		$this->db->from('church.userhead_src');
 		$this->db->where('user_id' ,$user_id);
 		$this->db->where('deleted_at is null');
 		$update_at = $this->db->get()->first_row();
 		$last_update_at	 = isset($update_at->update_at) ? $update_at->update_at : "" ;
 	
-		$this->db->select('user.id as user_id,userHead_src,nick');		
-		$this->db->from('church.userHead_src');
+		$this->db->select('user.id as user_id,userhead_src,nick');
+		$this->db->from('church.userhead_src');
 		$this->db->join('user', 'user.id = userhead_src.user_id', 'left');
 		$this->db->where('user_id', $user_id);
-		$this->db->where('userHead_src.deleted_at is null');
-		$this->db->where('userHead_src.update_at' ,$last_update_at);
+		$this->db->where('userhead_src.deleted_at is null');
+		$this->db->where('userhead_src.update_at' ,$last_update_at);
 		$this->db->where('user.deleted_at is null');
 	    return	$this->db->get()->first_row();
 

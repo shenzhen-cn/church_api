@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-class tq_header_info extends MY_Controller {
+class Tq_header_info extends MY_Controller {
 
 	public function __construct()
 	{
@@ -22,20 +22,37 @@ class tq_header_info extends MY_Controller {
 
 		$userHead_src  = isset($userHeadSrc_info)? $userHeadSrc_info->userHead_src : "";
 		$this->load->model('priest_preach/priest_preach_model');
-        $clas_p_p = $this->priest_preach_model->find_class_name_priest_preach();
-        
-        $result['clas_p_p']  = null;
-        if (! $userHead_src  || empty($userHead_src)) {
-        	$result['userHead_src']   = null;	
-        }else if (empty($clas_p_p) ) {
+		$clas_p_p = $this->priest_preach_model->find_class_name_priest_preach();
+//		var_dump($clas_p_p);exit;
+		$result['clas_p_p']  = null;
 
-        	$result['clas_p_p']   = null;	
-        }else{
-        	$result['userHead_src'] = $userHead_src;
-        	$result['clas_p_p']   = $clas_p_p;	
-        }	
+//		if (! $userHead_src  || empty($userHead_src)) {
+//			$result['userHead_src']   = null;
+//		}else if (empty($clas_p_p) ) {
+//
+//			$result['clas_p_p']   = null;
+//		}else{
+//			$result['userHead_src'] = $userHead_src;
+//			$result['clas_p_p']   = $clas_p_p;
+//		}
+
+		if (! $userHead_src  || empty($userHead_src)) {
+			$result['userHead_src']   = null;
+		}else{
+
+			$result['userHead_src'] = $userHead_src;
+		}
 
 
+		if (empty($clas_p_p) ) {
+
+				$result['clas_p_p']   = null;
+		}else{
+			$result['clas_p_p']   = $clas_p_p;
+		}
+
+
+//		var_dump($result);exit;
 		$result['group_info'] = $this->tq_header_info_model->findGroup();
 		// var_dump($result['group_info']);exit;
 
