@@ -426,7 +426,7 @@ class Admin_model extends MY_Model {
 
 			$this->db->insert('notice_groups', $data);
 			$insert_id = $this->db->insert_id();
-
+			var_dump($insert_id);exit;
 			foreach ($data_array as $key=> $group_id ) {
 				$this->db->select('group_leader_id');	
 				$this->db->from('group');
