@@ -417,7 +417,7 @@ class Admin_model extends MY_Model {
 
 			$insert_id_array = array();
 			$data_array = explode(',',$group_id_str); 
-			var_dump($data_array);exit;
+			// var_dump($data_array);exit;
 			$data = array(
 			               'contents' => $notice_contents ,
 			               'created_by' => $admin_id,
@@ -448,7 +448,7 @@ class Admin_model extends MY_Model {
 				
 			}
 
-			return $insert_id_array;
+			return $insert_id;
 		}
 	}
 
