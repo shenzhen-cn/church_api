@@ -313,7 +313,7 @@ class Admin_setting extends MY_Controller {
      $notice_contents     = $this->input->post('notice_contents');
 
      $results = $this->admin_model->notice_groups($group_id_str,$admin_id,$notice_contents);
-     var_dump($results);exit;
+     // var_dump($results);exit;
      if (!$results || empty($results)) {
        $this->response(array('status_code'=> 400 ));
        return;
