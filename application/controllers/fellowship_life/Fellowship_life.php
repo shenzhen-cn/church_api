@@ -202,9 +202,9 @@ class Fellowship_life extends MY_Controller {
         $limit = $limit ? $limit : self::DEFAULT_LIMIT;
 
         if($limit > self::MAX_LIMIT) $limit = self::DEFAULT_LIMIT;
-        $page = $this->get('page');
-        $page = $page ? $page : 1;
-        if($page == 0) $page = 1;
+        $temp_page = $this->get('page');
+        $page = $temp_page ? $temp_page : 1;
+        if($page == 0){ $page = 1;}
 
         $total = $this->fellowship_life_model->count_user_photos();
         // var_dump($total);exit;
