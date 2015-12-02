@@ -221,17 +221,14 @@ class Fellowship_life extends MY_Controller {
 
         $this->load->helper('util_helper');
         $pagination = get_pagination($total, $limit, $page);    
+
+        if($page > $pagination['page']){
+             $this->response(array('status_code'=> 400));
+            return;
+        }
+
         $user_photos_results = $this->fellowship_life_model->get_all_user_photos($pagination['limit'], $pagination['offset']);       
-        
-        // if (!$user_photos_results) {
-        //     $this->response(array('status_code'=> 400));
-        //     return;
-        // }
-        // $this->response(array('status_code'=> 200 ,'total' => $total, 'results'=>$results ));
 
-
-               
-        // var_dump($user_photos_results);exit;
         if (! isset($user_photos_results) || empty($user_photos_results)) {
             $this->response(array('status_code'=> 401));
             return;     
