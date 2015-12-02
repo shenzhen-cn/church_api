@@ -211,7 +211,7 @@ class Fellowship_life extends MY_Controller {
 
         if($total <= 0 || !$total ){
             $this->response(array('status_code'=> 400));
-            return;
+            return; 
         }
 
         if(($total < $limit) && ( $page >=2)){
