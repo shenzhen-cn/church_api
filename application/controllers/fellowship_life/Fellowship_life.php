@@ -209,7 +209,7 @@ class Fellowship_life extends MY_Controller {
         $total = $this->fellowship_life_model->count_user_photos();
         // var_dump($total);exit;
 
-        if($total <= 0 || !$total ){
+        if($total <= 0 || !$total ){ 
             $this->response(array('status_code'=> 400));
             return; 
         }
