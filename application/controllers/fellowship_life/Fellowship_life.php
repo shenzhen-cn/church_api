@@ -217,7 +217,7 @@ class Fellowship_life extends MY_Controller {
         if(($total < $limit) && ( $page >=2)){
              $this->response(array('status_code'=> 400));
             return;
-        }
+        } 
 
         $this->load->helper('util_helper');
         $pagination = get_pagination($total, $limit, $page);    
