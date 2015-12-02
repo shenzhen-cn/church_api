@@ -214,6 +214,11 @@ class Fellowship_life extends MY_Controller {
             return;
         }
 
+        if(($total < $limit) && ( $page >=2)){
+             $this->response(array('status_code'=> 400));
+            return;
+        }
+
         $this->load->helper('util_helper');
         $pagination = get_pagination($total, $limit, $page);    
         $user_photos_results = $this->fellowship_life_model->get_all_user_photos($pagination['limit'], $pagination['offset']);       
