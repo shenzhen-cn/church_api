@@ -435,13 +435,25 @@ class User_model extends MY_Model {
 		}
 	}
 
+	// public function user_registered($limit, $offset)
+	// {
+	// 	$this->db->select('id,user_name,status,created_url_at,token_exptime');
+	// 	$this->db->from('re_user');
+	// 	$this->db->order_by('id','desc');
+	// 	$this->db->limit($limit, $offset);
+	// 	return $this->db->get()->result();
+	// }
+	
 	public function user_registered($limit, $offset)
 	{
-		$this->db->select('id,user_name,status,created_url_at,token_exptime');
+		$this->db->select('re_user.id AS re_user_id,user.id as group_user_id,user.nick AS user_nick,sex,group_name,user_name,status,created_url_at,token_exptime,user.deleted_at as user_deleted_at ,admin.nick as admin_nick,user.deleted_by_id');
 		$this->db->from('re_user');
-		$this->db->order_by('id','desc');
+		$this->db->join('user', 'user.re_user_id = re_user.id', 'left');
+		$this->db->join('admin', 'admin.id = re_user.created_by_admin_id', 'left');
+		$this->db->join('group', 'group.id = user.group_id', 'left');
+		$this->db->order_by('re_user.id','desc');
 		$this->db->limit($limit, $offset);
-		return $this->db->get()->result();
+		return $this->db->get()->result();		
 	}
 
 	public function count_user_registeres()
