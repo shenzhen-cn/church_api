@@ -121,7 +121,6 @@ class Register extends MY_Controller {
 	public function addPersonal()
 	{
 		$re_user_email = $this->input->post('re_user_email');
-//		var_dump($re_user_email);exit();
 		$admin_id = $this->input->post('admin_id');
 		$active = 'active';
 		$regtime  =  date("Y-m-d H:i:s",time());
@@ -154,6 +153,7 @@ class Register extends MY_Controller {
 				$re_user_id = $this->user_model->addPersonal($re_user_email,$admin_id,$regtime,$token_exptime,$token,$is_activated_id);
 
 				$this->send_email($re_user_id,$re_user_email ,$token,$active);
+				return;				
 				
 			}	
 		}
