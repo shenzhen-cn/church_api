@@ -212,10 +212,13 @@ class Register extends MY_Controller {
 
 	}
 
+/**
+update 2015/12/13
+*/
 	public function improveInformation()
 	{
 		$user_id 			= 	$this->input->post('user_id');
-		$userHeadSrc 		= 	$this->input->post('userHeadSrc');
+		// $userHeadSrc 		= 	$this->input->post('userHeadSrc');
 		$sex 				= 	$this->input->post('sex');
 		$group_id 			= 	$this->input->post('group_id');
 		$user_nick			=   $this->input->post('user_nick');
@@ -228,10 +231,12 @@ class Register extends MY_Controller {
 			$is_affected = $this->user_model->update_group_leader($user_id);
 		}	
 		
-		$result = $this->user_model->improveInformation($user_id,$userHeadSrc, $sex,$user_nick);
+		$result = $this->user_model->improveInformation($user_id,$sex,$user_nick);
 		
 		$this->response(array('results' => $result));
 	}
+
+
 
 	public function resetpassword()
 	{

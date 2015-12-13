@@ -155,4 +155,46 @@ class User extends MY_Controller {
 
         $this->response(array('status_code' =>200,'results' => $results));
     }
+
+/**
+    code 2015/12/13
+*/
+    public function upload_headSrc()
+    {
+        $user_id = $this->post('user_id');
+        $userHeadSrc = $this->post('userHeadSrc');
+
+        $results = $this->user_model->upload_headSrc($user_id,$userHeadSrc);
+
+        if(!$results){
+           $this->response( array('status_code' =>400));
+           return; 
+        }
+
+        $this->response(array('status_code' =>200,'results' => $results));
+    }
+
+    public function modify_user_data()
+    {
+        $user_nick = $this->post('user_nick');
+        $sex = $this->post('sex');
+        $group_id = $this->post('group_id');
+        $user_id = $this->post('user_id');
+
+        $is_bool = $this->user_model->update_user_group($user_id,$group_id);
+        
+        if ($is_bool &&  $is_bool > 0) {
+            
+            $this->user_model->update_group_leader($user_id);
+        }   
+        // var_dump($is_bool);exit;
+        $results = $this->user_model->modify_user_data($user_nick,$sex,$user_id);
+        // var_dump($results);exit;
+        if(!$results){
+           $this->response( array('status_code' =>400));
+           return; 
+        }
+
+        $this->response(array('status_code' =>200,'results' => $results));
+    }
 }

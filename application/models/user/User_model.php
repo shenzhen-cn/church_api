@@ -70,12 +70,15 @@ class User_model extends MY_Model {
 		
 	}
 
-	public function improveInformation($user_id,$userHeadSrc,$sex,$user_nick)
+/**
+    update 2015/12/13
+*/
+	public function improveInformation($user_id,$sex,$user_nick)
 	{	
 		$data_return  	= array();
 		$params 		= array();
 		
-		if (!empty($user_id) && !empty($userHeadSrc) && !empty($sex) ) {
+		if (!empty($user_id) ) {
 
 			if (!empty($user_nick)) {
 				$params['nick']  = $user_nick;
@@ -86,13 +89,14 @@ class User_model extends MY_Model {
 			$this->db->where('id', $user_id);
 			$this->db->update('user', $params);
 			$data_return['affected_id'] =  $this->db->affected_rows();
-			$this->db->set('user_id', $user_id);
-			$this->db->set('userHead_src',  $userHeadSrc);
-			$this->db->set('created_at', mdate('%Y-%m-%d %H:%i:%s', now()));
-			$this->db->set('update_at', mdate('%Y-%m-%d %H:%i:%s', now()));
+			
+			// $this->db->set('user_id', $user_id);
+			// $this->db->set('userHead_src',  $userHeadSrc);
+			// $this->db->set('created_at', mdate('%Y-%m-%d %H:%i:%s', now()));
+			// $this->db->set('update_at', mdate('%Y-%m-%d %H:%i:%s', now()));
 
-			$this->db->insert('userhead_src');
-			$data_return['userHead_src_id'] = $this->db->insert_id();
+			// $this->db->insert('userhead_src');
+			// $data_return['userHead_src_id'] = $this->db->insert_id();
 
 
 			return $data_return;
@@ -1345,6 +1349,45 @@ class User_model extends MY_Model {
 			$this->db->where('user_id', $user_id);
 			$this->db->update('prayer_for_group', $data);
 			return $this->db->affected_rows();		
+		}
+	}
+
+	/**
+    code 2015/12/13
+**/
+	public function upload_headSrc($user_id,$userHeadSrc)
+	{
+		if(!empty($user_id) && !empty($userHeadSrc)){
+
+			$this->db->set('user_id', $user_id);
+			$this->db->set('userHead_src',  $userHeadSrc);
+			$this->db->set('created_at', mdate('%Y-%m-%d %H:%i:%s', now()));
+			$this->db->set('update_at', mdate('%Y-%m-%d %H:%i:%s', now()));
+
+			$this->db->insert('userhead_src');
+			return $this->db->insert_id();
+
+		}else{
+			return false;
+		}
+	}
+
+	public function modify_user_data($user_nick,$sex,$user_id)
+	{
+		if (!empty($user_nick) && !empty($sex) && !empty($user_id)) {
+
+			$params = array(
+					'nick' =>$user_nick,
+					'sex' =>$sex,
+					'updated_at' =>mdate('%Y-%m-%d %H:%i:%s', now())					
+				);
+
+			$this->db->where('id', $user_id);
+			$this->db->update('user', $params);
+			return $this->db->affected_rows();
+
+		}else{
+			return false;
 		}
 	}
 
