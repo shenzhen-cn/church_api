@@ -1352,9 +1352,6 @@ class User_model extends MY_Model {
 		}
 	}
 
-	/**
-    code 2015/12/13
-**/
 	public function upload_headSrc($user_id,$userHeadSrc)
 	{
 		if(!empty($user_id) && !empty($userHeadSrc)){
@@ -1390,6 +1387,167 @@ class User_model extends MY_Model {
 			return false;
 		}
 	}
+
+	/**
+		update 12-17
+	*/		
+	public function get_honor_list()
+	{	
+		$return_array = array();
+		//灵修
+		$get_count_spirit_results =$this->get_count_spirit();	
+		$user_count_results  = $this->get_user_count($get_count_spirit_results);
+		$user_info_count_spirit_results =$this->get_user_info_count_spirit($user_count_results);		
+
+		//祷告
+		$user_count_prayer = $this->get_count_prayer();
+		$user_count_prayer_results  = $this->get_user_count($user_count_prayer);
+
+		$user_info_count_prayer_results =$this->get_user_info_count_prayer($user_count_prayer_results);		
+
+		$return_array = array('user_info_count_spirit_results' =>$user_info_count_spirit_results ,'user_info_count_prayer_results' => $user_info_count_prayer_results );
+		return $return_array;
+
+	}
+
+	//灵修
+	public function get_count_spirit()
+	{
+		$this->db->select('user_id');	
+		$this->db->from('spirituality');
+		$this->db->where('deleted_at is null');
+		return  $this->db->get()->result_array();		
+	}
+
+	//祷告
+	public function get_count_prayer()
+	{	
+		$results = array();	
+
+		$this->db->select('user_id');	
+		$this->db->from('prayer_for_group');
+		$this->db->where('deleted_at is null');
+		$results1 = $this->db->get()->result_array();
+
+		$this->db->select('user_id');	
+		$this->db->from('prayer_for_urgent');
+		$this->db->where('deleted_at is null');
+		$results2 = $this->db->get()->result_array();
+
+		if(!empty($results1) && !empty($results1)){
+			$results = array_merge($results1,$results2);
+			return $results;
+		}else if(empty($results1) && !empty($results2) ){
+			return $results2;
+		}else if(!empty($results1) && empty($results2)){
+			return $results1;			
+		}else {
+			return 	$results;						
+		}
+
+	}
+
+	public function get_user_count($results='')
+	{
+		$arr_user_id_count = array();
+		$arr_temp = array();
+
+		if (!empty($results)) {
+
+			foreach ($results as $k => $v) {
+				$arr_temp[] = $v['user_id'];
+			}
+
+			$arr_user_id_count = array_count_values($arr_temp);			
+		}
+			return $arr_user_id_count;
+	}
+
+	public function get_user_info_count_spirit($results='')
+	{				
+		$return_array  = array();
+		arsort($results);
+		foreach ($results as $key => $value) {
+			$user_info = $this->get_user_all_info($key);
+        	$user_created_at = date('Y-m-d',strtotime($user_info['user_created_at']));
+			$regtime  		 = date("Y-m-d H:i:s",time());
+			$already_reg_day =  $this->diffBetweenTwoDays($user_created_at ,date("Y-m-d",strtotime($regtime)));
+			$spirit_rate  = $this->get_percentage($value,$already_reg_day);
+			$return_array[] = array(
+					'user_id' => $user_info['user_id'], 
+					'user_sex' => $user_info['sex'], 
+					'user_nick' => $user_info['nick'], 
+					'user_userHead_src' => $user_info['userHead_src'], 
+					'user_group_name' => $user_info['group_name'], 
+					'user_created_at' => $user_created_at, 
+					'user_count_spirit' => $value, 
+					'already_reg_day' => $already_reg_day,
+					'spirit_rate' => $spirit_rate,					 
+				);  			
+		}
+
+		$return_array = array_slice($return_array,0,10);
+		return $return_array;
+	}
+
+	public function get_count_prayers()
+	{
+		$count_group_prayer = null;
+		$count_urgent_prayer = null;		
+
+		$this->db->select('count(*) as count');	
+		$this->db->from('group_prayer');
+		$this->db->where('deleted_at is null');
+		$temp_data1 =  $this->db->get()->first_row();
+
+		if (!empty($temp_data1)) {
+			$count_group_prayer = $temp_data1->count;
+		}
+
+		$this->db->select('count(*) as count');	
+		$this->db->from('prayer_for_urgent');
+		$this->db->where('deleted_at is null');
+		$temp_data2 =  $this->db->get()->first_row();
+
+		if (!empty($temp_data2)) {
+			$count_urgent_prayer = $temp_data2->count;
+		}		
+
+		$count_prayers = $count_group_prayer +  $count_urgent_prayer;
+		return $count_prayers;
+
+	}
+	public function get_user_info_count_prayer($results='')
+	{				
+		$return_array  = array();
+		arsort($results);
+		foreach ($results as $key => $value) {
+
+			$user_info = $this->get_user_all_info($key);
+        	$user_created_at = date('Y-m-d',strtotime($user_info['user_created_at']));
+			$regtime  		 = date("Y-m-d H:i:s",time());
+			$already_reg_day =  $this->diffBetweenTwoDays($user_created_at ,date("Y-m-d",strtotime($regtime)));
+			
+			$count_prayers = $this->get_count_prayers();
+
+
+			$prayer_rate  = $this->get_percentage($value,$count_prayers);
+			$return_array[] = array(
+					'user_id' => $user_info['user_id'], 
+					'user_sex' => $user_info['sex'], 
+					'user_nick' => $user_info['nick'], 
+					'user_userHead_src' => $user_info['userHead_src'], 
+					'user_group_name' => $user_info['group_name'], 
+					'user_created_at' => $user_created_at, 
+					'user_count_prayer' => $value, 
+					'already_reg_day' => $already_reg_day,
+					'prayer_rate' => $prayer_rate,					 
+				);  			
+		}
+
+		$return_array = array_slice($return_array,0,10);
+		return $return_array;
+	}	
 
 }
 	

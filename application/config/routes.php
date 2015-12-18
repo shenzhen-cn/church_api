@@ -137,16 +137,9 @@ $route['alert_messages/del_alert_comments_by_spirituality_id']              = 'm
 $route['alert_messages/del_all_praise_alert']                               = 'messages/user_alert_messages/del_all_praise_alert';
 $route['alert_messages/del_prompt_alerts'] 						            = 'messages/user_alert_messages/del_prompt_alerts';
 $route['personal/get_informations'] 					                    = 'user/user/get_informations';
-/**
-	code  2015 12/13
-**/
 $route['personal/upload_headSrc'] 					                        = 'user/user/upload_headSrc';
 $route['personal/modify_user_data'] 					                    = 'user/user/modify_user_data';
-
-
-/**
-	code  2015 12/13
-**/
+$route['personal/get_honor_list'] 					                        = 'user/user/get_honor_list';
 
 
 

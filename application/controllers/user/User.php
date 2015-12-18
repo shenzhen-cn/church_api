@@ -156,9 +156,6 @@ class User extends MY_Controller {
         $this->response(array('status_code' =>200,'results' => $results));
     }
 
-/**
-    code 2015/12/13
-*/
     public function upload_headSrc()
     {
         $user_id = $this->post('user_id');
@@ -197,4 +194,20 @@ class User extends MY_Controller {
 
         $this->response(array('status_code' =>200,'results' => $results));
     }
+    
+    /**
+        update 12-17
+    */
+    public function get_honor_list()
+    {
+        $results = $this->user_model->get_honor_list();         
+
+        if(!$results){
+           $this->response( array('status_code' =>400));
+           return; 
+        }
+
+        $this->response(array('status_code' =>200,'results' => $results));
+
+    }    
 }
