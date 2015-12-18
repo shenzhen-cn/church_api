@@ -1508,7 +1508,7 @@ class User_model extends MY_Model {
 		}
 
 		$this->db->select('count(*) as count');	
-		$this->db->from('prayer_for_urgent');
+		$this->db->from('urgent_prayer');
 		$this->db->where('deleted_at is null');
 		$temp_data2 =  $this->db->get()->first_row();
 
