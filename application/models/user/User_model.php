@@ -1481,7 +1481,7 @@ class User_model extends MY_Model {
 					'user_group_name' => $user_info['group_name'], 
 					'user_created_at' => $user_created_at, 
 					'user_count_spirit' => $value, 
-					'already_reg_day' => $already_reg_day,
+					'already_reg_day' => $already_reg_day + 1,
 					'spirit_rate' => $spirit_rate,					 
 				);  			
 		}
@@ -1540,7 +1540,7 @@ class User_model extends MY_Model {
 					'user_group_name' => $user_info['group_name'], 
 					'user_created_at' => $user_created_at, 
 					'user_count_prayer' => $value, 
-					'already_reg_day' => $already_reg_day,
+					'already_reg_day' => $already_reg_day + 1,
 					'prayer_rate' => $prayer_rate,					 
 				);  			
 		}
