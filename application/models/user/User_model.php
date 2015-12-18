@@ -1547,6 +1547,7 @@ class User_model extends MY_Model {
 					'user_created_at' => $user_created_at, 
 					'user_count_prayer' => $value, 
 					'already_reg_day' => $already_reg_day,
+					'count_prayers' => $count_prayers,						
 					'prayer_rate' => $prayer_rate,					 
 				);  			
 		}
