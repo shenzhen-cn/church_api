@@ -74,7 +74,7 @@ if (! function_exists("smtp_mail"))
 	    $mail->SMTPAuth = true;           // turn on SMTP authentication    
 	    $mail->Username = "3302376521@qq.com";     // SMTP username  注意：普通邮件认证不需要加 @域名    
 	    $mail->Password = "tq1234"; // SMTP password    
-	    $mail->From = "3302376521@qq.com";   //发件人邮箱   
+	    $mail->From = "tuan_qi_wang@qq.com";   //发件人邮箱   
 	    // 发件人邮箱    
 	    $mail->FromName =  "使命青年团契网";  // 发件人    
 
