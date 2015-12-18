@@ -1472,6 +1472,8 @@ class User_model extends MY_Model {
         	$user_created_at = date('Y-m-d',strtotime($user_info['user_created_at']));
 			$regtime  		 = date("Y-m-d H:i:s",time());
 			$already_reg_day =  $this->diffBetweenTwoDays($user_created_at ,date("Y-m-d",strtotime($regtime)));
+			$already_reg_day = $already_reg_day+1; 
+
 			$spirit_rate  = $this->get_percentage($value,$already_reg_day);
 			$return_array[] = array(
 					'user_id' => $user_info['user_id'], 
@@ -1481,7 +1483,7 @@ class User_model extends MY_Model {
 					'user_group_name' => $user_info['group_name'], 
 					'user_created_at' => $user_created_at, 
 					'user_count_spirit' => $value, 
-					'already_reg_day' => $already_reg_day + 1,
+					'already_reg_day' => $already_reg_day,
 					'spirit_rate' => $spirit_rate,					 
 				);  			
 		}
@@ -1527,6 +1529,7 @@ class User_model extends MY_Model {
         	$user_created_at = date('Y-m-d',strtotime($user_info['user_created_at']));
 			$regtime  		 = date("Y-m-d H:i:s",time());
 			$already_reg_day =  $this->diffBetweenTwoDays($user_created_at ,date("Y-m-d",strtotime($regtime)));
+			$already_reg_day = $already_reg_day+1; 
 			
 			$count_prayers = $this->get_count_prayers();
 
@@ -1540,7 +1543,7 @@ class User_model extends MY_Model {
 					'user_group_name' => $user_info['group_name'], 
 					'user_created_at' => $user_created_at, 
 					'user_count_prayer' => $value, 
-					'already_reg_day' => $already_reg_day + 1,
+					'already_reg_day' => $already_reg_day,
 					'prayer_rate' => $prayer_rate,					 
 				);  			
 		}
