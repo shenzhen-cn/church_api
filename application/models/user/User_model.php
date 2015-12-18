@@ -1492,13 +1492,14 @@ class User_model extends MY_Model {
 		return $return_array;
 	}
 
-	public function get_count_prayers()
+	public function get_count_prayers($user_group_id ='')
 	{
 		$count_group_prayer = null;
 		$count_urgent_prayer = null;		
 
 		$this->db->select('count(*) as count');	
 		$this->db->from('group_prayer');
+		$this->db->where('group_id', $user_group_id);		
 		$this->db->where('deleted_at is null');
 		$temp_data1 =  $this->db->get()->first_row();
 
@@ -1526,12 +1527,14 @@ class User_model extends MY_Model {
 		foreach ($results as $key => $value) {
 
 			$user_info = $this->get_user_all_info($key);
+			$user_group_id  = $user_info['group_id'];
+
         	$user_created_at = date('Y-m-d',strtotime($user_info['user_created_at']));
 			$regtime  		 = date("Y-m-d H:i:s",time());
 			$already_reg_day =  $this->diffBetweenTwoDays($user_created_at ,date("Y-m-d",strtotime($regtime)));
 			$already_reg_day = $already_reg_day+1; 
 			
-			$count_prayers = $this->get_count_prayers();
+			$count_prayers = $this->get_count_prayers($user_group_id);
 
 
 			$prayer_rate  = $this->get_percentage($value,$count_prayers);
