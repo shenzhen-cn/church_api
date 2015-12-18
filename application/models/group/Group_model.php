@@ -808,12 +808,14 @@ class Group_model extends MY_Model {
 		}
 
 		$arr = array();
-		foreach ($result as $key => $value) {
+		if (!empty($result)) {
+			foreach ($result as $key => $value) {
 
-			if(!isset($arr[$value->group_id])){
-				$arr[$value->group_id] = 1;
-			}else{
-				$arr[$value->group_id] += 1;
+				if(!isset($arr[$value->group_id])){
+					$arr[$value->group_id] = 1;
+				}else{
+					$arr[$value->group_id] += 1;
+				}
 			}
 		}
 		
@@ -835,8 +837,13 @@ class Group_model extends MY_Model {
 
 			$this->load->model('tq_header_info_model');
 			$leade_info = $this->tq_header_info_model->findUser($group_leader_id);
-			$nick = $leade_info->nick;
-			$group_name = $leade_info->group_name;
+			if (!empty($leade_info)) {
+				$nick = $leade_info->nick;
+				$group_name = $leade_info->group_name;
+			}else{
+				$nick = null;
+				$group_name = null;
+			}
 
 			$rank_by_month[] = array( 
 						'group_id' => $k,
