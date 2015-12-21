@@ -382,16 +382,16 @@ update 2015/12/13
 	public function user_registered()
 	{
 		var_dump("hello");exit;
-		$limit = $this->post('limit');
-		$page  = $this->post('page');
+		$limit = $this->input->post('limit');
+		$page  = $this->input->post('page');
 
-		$user_nick = $this->post('user_nick');
-		$user_group_id = $this->post('user_group_id');
-		$admin_id = $this->post('admins_id');
-		$user_email = $this->post('user_email');
-		$member_status = $this->post('member_status');
-		$reg_start_time = $this->post('reg_start_time');
-		$reg_end_time = $this->post('reg_end_time');
+		$user_nick = $this->input->post('user_nick');
+		$user_group_id = $this->input->post('user_group_id');
+		$admin_id = $this->input->post('admins_id');
+		$user_email = $this->input->post('user_email');
+		$member_status = $this->input->post('member_status');
+		$reg_start_time = $this->input->post('reg_start_time');
+		$reg_end_time = $this->input->post('reg_end_time');
 
 
 
