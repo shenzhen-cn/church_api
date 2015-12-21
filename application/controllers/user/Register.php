@@ -381,6 +381,7 @@ update 2015/12/13
 	*/
 	public function user_registered()
 	{
+		var_dump("hello");exit;
 		$limit = $this->post('limit');
 		$page  = $this->post('page');
 
