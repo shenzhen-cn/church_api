@@ -415,32 +415,6 @@ update 2015/12/13
 
 		$this->response(array('status_code'=>'200','results' =>$results,'total'=>$total ));
 	}
-
-	public function checkCurrentPwd()
-	{
-		$currentPwd  = $this->input->post('currentPwd');
-		$user_id  = $this->input->post('user_id');
 		
-		$is_bool = false;
-
-		if (empty($currentPwd) || empty($user_id) ) {
-
-			$this->response(array('results' => $is_bool ));	
-			return;
-		}
-
-		$currentPwd = md5(md5($currentPwd));
-
-		$isset_id = $this->user_model->checkCurrentPwd($currentPwd,$user_id);
-
-		if (! empty($isset_id)) {
-			$is_bool = true;
-		}else{
-
-			$is_bool = false;
-		}
-
-		$this->response(array('results' => $is_bool ));
-	}	
 	
 }
