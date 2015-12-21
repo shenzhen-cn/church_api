@@ -439,31 +439,39 @@ class User_model extends MY_Model {
 		}
 	}
 
-	// public function user_registered($limit, $offset)
-	// {
-	// 	$this->db->select('id,user_name,status,created_url_at,token_exptime');
-	// 	$this->db->from('re_user');
-	// 	$this->db->order_by('id','desc');
-	// 	$this->db->limit($limit, $offset);
-	// 	return $this->db->get()->result();
-	// }
-	
-	public function user_registered($limit, $offset)
+	public function count_user_registeres($user_nick,$user_group_id,$admin_id,$user_email,$member_status,$reg_start_time,$reg_end_time)
 	{
-		$this->db->select('re_user.id AS re_user_id,user.id as group_user_id,user.nick AS user_nick,sex,group_name,user_name,status,created_url_at,token_exptime,user.deleted_at as user_deleted_at ,admin.nick as admin_nick,user.deleted_by_id');
+		$member_status = !empty($member_status) ? $member_status : "0";
+		$this->db->select('count(*) as count');
 		$this->db->from('re_user');
 		$this->db->join('user', 'user.re_user_id = re_user.id', 'left');
 		$this->db->join('admin', 'admin.id = re_user.created_by_admin_id', 'left');
 		$this->db->join('group', 'group.id = user.group_id', 'left');
-		$this->db->order_by('re_user.id','desc');
-		$this->db->limit($limit, $offset);
-		return $this->db->get()->result();		
-	}
 
-	public function count_user_registeres()
-	{
-		$this->db->select('count(*) as count');
-		$this->db->from('re_user');
+		if(!empty($user_nick)){			
+			$this->db->where('user.nick =', $user_nick);
+		}	
+		if (!empty($user_group_id)) {
+			$this->db->where('user.group_id', $user_group_id);
+		}
+		if (!empty($admin_id)) {
+			$this->db->where('re_user.created_by_admin_id', $admin_id);
+		}
+		if (!empty($user_email)) {
+
+			$this->db->where('re_user.user_name', $user_email);
+		}
+		if ($member_status <= 1) {
+			$this->db->where('re_user.status =', $member_status);
+		}
+
+		if (!empty($reg_start_time)) {
+			$this->db->where('re_user.registered_at >=', $reg_start_time.' 00:00:00');
+		}
+		if (!empty($reg_end_time)) {
+			$this->db->where('re_user.registered_at <=', $reg_end_time.' 24:59:59');
+		}
+
 		$query = $this->db->get()->first_row();
 		if(!empty($query)){
 			$count =  $query->count;
@@ -1554,7 +1562,102 @@ class User_model extends MY_Model {
 
 		$return_array = array_slice($return_array,0,10);
 		return $return_array;
-	}	
+	}
+
+	/**
+		update 12-17
+	*/
+
+	public function user_registered($user_nick,$user_group_id,$admin_id,$user_email,$member_status,$reg_start_time,$reg_end_time,$limit, $offset)
+	{
+		$member_status = !empty($member_status) ? $member_status : "0"; 
+		$this->db->select('re_user.id AS re_user_id,user.id as group_user_id,user.nick AS user_nick,sex,group_name,user_name,status,remark,user.deleted_at as user_deleted_at,created_url_at,token_exptime,user.deleted_at as user_deleted_at ,admin.nick as admin_nick,user.deleted_by_id');
+		$this->db->from('re_user');
+		$this->db->join('user', 'user.re_user_id = re_user.id', 'left');
+		$this->db->join('admin', 'admin.id = re_user.created_by_admin_id', 'left');
+		$this->db->join('group', 'group.id = user.group_id', 'left');
+
+		if(!empty($user_nick)){			
+			$this->db->where('user.nick =', $user_nick);
+		}	
+		if (!empty($user_group_id)) {
+			$this->db->where('user.group_id', $user_group_id);
+		}
+		if (!empty($admin_id)) {
+			$this->db->where('re_user.created_by_admin_id', $admin_id);
+		}
+		if (!empty($user_email)) {
+
+			$this->db->where('re_user.user_name', $user_email);
+		}
+		if ($member_status <= 1) {
+			$this->db->where('re_user.status', $member_status);
+		}
+
+		if (!empty($reg_start_time)) {
+			$this->db->where('re_user.registered_at >=', $reg_start_time.' 00:00:00');
+		}
+		if (!empty($reg_end_time)) {
+			$this->db->where('re_user.registered_at <=', $reg_end_time.' 24:59:59');
+		}
+		$this->db->order_by('re_user.id','desc');
+		$this->db->limit($limit, $offset);
+		return $this->db->get()->result();	
+	}
+
+	public function detail_user_reg($re_user_id)
+	{		
+		$this->db->select('re_user.id AS re_user_id,user.id as group_user_id,user.nick AS user_nick,sex,group_id as user_group_id,group_name,user_name,remark');		
+		$this->db->from('re_user');
+		$this->db->join('user', 'user.re_user_id = re_user.id', 'left');
+
+		$this->db->join('group', 'group.id = user.group_id', 'right');
+		$this->db->where('re_user_id', $re_user_id);
+		$this->db->order_by('re_user.id','desc');
+	    return 	$this->db->get()->first_row();
+	
+	}
+
+	public function update_user_reg($re_user_id,$user_group_id,$remark)
+	{
+		if (!empty($re_user_id)) {
+			$params['group_id'] = $user_group_id;
+			$this->db->where('re_user_id', $re_user_id);
+			$this->db->update('user', $params);	
+			$updated1 =  $this->db->affected_rows();
+
+
+			$data['remark'] = $remark;
+			$this->db->where('id', $re_user_id);
+			$this->db->update('re_user', $data);	
+			$updated2 =  $this->db->affected_rows();
+
+			if ($updated1) {
+				return true;			
+			}else if($updated2){
+				return true;			
+			}else{
+				return false;		
+			}
+
+		}else{
+			return false;
+		}		
+	}
+
+	public function remark_reg_user($reg_user_id,$remark)
+	{
+		if (!empty($reg_user_id)) {
+
+			$data['remark'] = $remark;
+			$this->db->where('id', $reg_user_id);
+			$this->db->update('re_user', $data);	
+			return $this->db->affected_rows();
+
+		}else{
+			return false;
+		}
+	}		
 
 }
 	

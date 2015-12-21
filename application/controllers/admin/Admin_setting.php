@@ -369,8 +369,23 @@ class Admin_setting extends MY_Controller {
 
      $this->response(array('status_code'=> 200 ,'results' => $results));
 
-
    }
+
+   /**
+      update 12-20
+   */
+    public function admin()
+    {
+
+      $results = $this->admin_model->admin();
+      
+      if (!$results || empty($results)) {
+        $this->response(array('status_code'=> 400 ));
+        return;
+      }
+
+      $this->response(array('status_code'=> 200 ,'results' => $results));
+    }
 
 
 

@@ -354,11 +354,24 @@ class Tq_header_info_model extends MY_Model {
 		}
 	}
 
+	/**
+			update 12-21
+	*/		
+	public function admin_login_log($admin_id)
+	{
+		if (!empty($admin_id)) {
 
+			$data = array(
+			               'admin_id' => $admin_id ,
+			               'login_at' => mdate('%Y-%m-%d %H:%i:%s', now()),
+			            );
 
-
-
-
+			$this->db->insert('admin_login_log', $data); 	
+			return true;	
+		}else{
+			return false;
+		}
+	}		
 
 	
 }

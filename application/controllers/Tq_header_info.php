@@ -104,6 +104,15 @@ class Tq_header_info extends MY_Controller {
 		$this->response(array('results' => $results));	
 	}
 
-	
+	/**
+	 update 	code 12-21
+	*/
+	public function admin_login_log()
+	{
+		$admin_id = $this->get('admin_id');
+
+		$results = $this->tq_header_info_model->admin_login_log($admin_id);
+		$this->response(array('results' => $results));	
+	}
 	
 }

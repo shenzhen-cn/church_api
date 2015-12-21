@@ -489,6 +489,31 @@ class Admin_model extends MY_Model {
 		}
 	}
 
+	/**
+		update 12-20
+	*/
+	public function admin()
+	{
+		$this->db->select('id,nick,level');	
+		$this->db->from('admin');
+		$this->db->where('deleted_at is null');
+		$results = $this->db->get()->result_array();
+		$return_arr = array();	
+		if(!empty($results)){				
+			foreach ($results as $k => $v) {
+				$admin_id = $v['id'];
+				$v['last_login_at'] = null;
+				$login_logs = $this->admin_login_log($admin_id);				
+				$last_login_at = $login_logs->last_login_at;	
+				if (!empty($last_login_at)) {
+					$v['last_login_at'] = $this->tranTime(strtotime($last_login_at));	
+				}
+				$return_arr[] = $v;
+			}			
+		}
+		return $return_arr;
+	}
+
 }
 	
 	

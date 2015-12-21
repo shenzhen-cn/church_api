@@ -185,4 +185,15 @@ class MY_Model extends CI_Model
 		return $data_return;
 
 	}
+
+	public function admin_login_log($admin_id)
+	{
+		if (!empty($admin_id)) {
+			$this->db->select('max(login_at) as last_login_at');	
+			$this->db->from('admin_login_log');
+			$this->db->where('admin_id', $admin_id);
+			$this->db->where('deleted_at is null');
+			return $this->db->get()->first_row();
+		}
+	}
 }

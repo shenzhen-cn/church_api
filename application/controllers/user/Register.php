@@ -323,30 +323,31 @@ update 2015/12/13
 		}
 	}
 
-	public function user_registered()
-	{
-		$limit = $this->get('limit');
-		$page  = $this->get('page');
-		$limit = $limit ? $limit : self::DEFAULT_LIMIT;
-		if($limit > self::MAX_LIMIT) $limit = self::DEFAULT_LIMIT;
-		$page = $page ? $page : 1;
-		if($page == 0) $page = 1;
+	// public function user_registered()
+	// {
+	// 	$limit = $this->get('limit');
+	// 	$page  = $this->get('page');
 
-		$total = $this->user_model->count_user_registeres();    
+	// 	$limit = $limit ? $limit : self::DEFAULT_LIMIT;
+	// 	if($limit > self::MAX_LIMIT) $limit = self::DEFAULT_LIMIT;
+	// 	$page = $page ? $page : 1;
+	// 	if($page == 0) $page = 1;
 
-		if($total <= 0 ){
-		    $this->response(array('status_code'=>'400'));
-		    return;
-		}
+	// 	$total = $this->user_model->count_user_registeres();    
 
-		$this->load->helper('util_helper');
-		$pagination = get_pagination($total, $limit, $page); 
+	// 	if($total <= 0 ){
+	// 	    $this->response(array('status_code'=>'400'));
+	// 	    return;
+	// 	}
 
-		$results = $this->user_model->user_registered($pagination['limit'], $pagination['offset']);
+	// 	$this->load->helper('util_helper');
+	// 	$pagination = get_pagination($total, $limit, $page); 
+
+	// 	$results = $this->user_model->user_registered($pagination['limit'], $pagination['offset']);
 
 
-		$this->response(array('results' =>$results,'total'=>$total ));
-	}
+	// 	$this->response(array('results' =>$results,'total'=>$total ));
+	// }
 
 	public function checkCurrentPwd()
 	{
@@ -374,5 +375,71 @@ update 2015/12/13
 
 		$this->response(array('results' => $is_bool ));
 	}
+
+	/**
+		code update 12-20
+	*/
+	public function user_registered()
+	{
+		$limit = $this->post('limit');
+		$page  = $this->post('page');
+
+		$user_nick = $this->post('user_nick');
+		$user_group_id = $this->post('user_group_id');
+		$admin_id = $this->post('admins_id');
+		$user_email = $this->post('user_email');
+		$member_status = $this->post('member_status');
+		$reg_start_time = $this->post('reg_start_time');
+		$reg_end_time = $this->post('reg_end_time');
+
+
+
+		$limit = $limit ? $limit : self::DEFAULT_LIMIT;
+		if($limit > self::MAX_LIMIT) $limit = self::DEFAULT_LIMIT;
+		$page = $page ? $page : 1;
+		if($page == 0) $page = 1;
+
+		$total = $this->user_model->count_user_registeres($user_nick,$user_group_id,$admin_id,$user_email,$member_status,$reg_start_time,$reg_end_time);    
+		// var_dump($total);exit;
+		if($total <= 0 ){
+		    $this->response(array('status_code'=>'400'));
+		    return;
+		}
+
+		$this->load->helper('util_helper');
+		$pagination = get_pagination($total, $limit, $page); 				
+		// var_dump($pagination);exit;
+		$results = $this->user_model->user_registered($user_nick,$user_group_id,$admin_id,$user_email,$member_status,$reg_start_time,$reg_end_time,$pagination['limit'], $pagination['offset']);
+		// var_dump($results);exit;
+
+		$this->response(array('status_code'=>'200','results' =>$results,'total'=>$total ));
+	}
+
+	public function checkCurrentPwd()
+	{
+		$currentPwd  = $this->input->post('currentPwd');
+		$user_id  = $this->input->post('user_id');
+		
+		$is_bool = false;
+
+		if (empty($currentPwd) || empty($user_id) ) {
+
+			$this->response(array('results' => $is_bool ));	
+			return;
+		}
+
+		$currentPwd = md5(md5($currentPwd));
+
+		$isset_id = $this->user_model->checkCurrentPwd($currentPwd,$user_id);
+
+		if (! empty($isset_id)) {
+			$is_bool = true;
+		}else{
+
+			$is_bool = false;
+		}
+
+		$this->response(array('results' => $is_bool ));
+	}	
 	
 }

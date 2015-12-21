@@ -206,6 +206,16 @@ $route['fellowship_life/rename_album_name'] 								= 'fellowship_life/fellowshi
 $route['wallOfPrayer/send_prayer'] 						                    = 'prayer/prayer/send_prayer';
 $route['wallOfPrayer/send_group_prayer'] 									= 'prayer/prayer/send_group_prayer';
 
+//update 12-21
+$route['personal/remark_reg_user'] 									        = 'user/user/remark_reg_user';
+$route['personal/detail_user_reg'] 									        = 'user/user/detail_user_reg';
+$route['personal/update_user_reg'] 									        = 'user/user/update_user_reg';
+$route['personal/admin'] 									                = 'admin/admin_setting/admin';
+$route['tq_admin_header_info/admin_login_log'] 							    = 'tq_header_info/admin_login_log';
+
+
+
+
 
 
 

@@ -195,9 +195,7 @@ class User extends MY_Controller {
         $this->response(array('status_code' =>200,'results' => $results));
     }
     
-    /**
-        update 12-17
-    */
+
     public function get_honor_list()
     {
         $results = $this->user_model->get_honor_list();         
@@ -208,6 +206,57 @@ class User extends MY_Controller {
         }
 
         $this->response(array('status_code' =>200,'results' => $results));
+    }   
 
-    }    
+    /**
+        update 12-17
+    */
+
+
+    public function detail_user_reg()
+    {
+        $re_user_id = $this->get('re_user_id');
+
+        $results = $this->user_model->detail_user_reg($re_user_id);         
+        if(!$results){
+           $this->response( array('status_code' =>400));
+           return; 
+        }
+
+        $this->response(array('status_code' =>200,'results' => $results));
+    } 
+
+    public function update_user_reg()
+    {
+       $remark = $this->input->post('remark');
+       $user_group_id = $this->input->post('user_group_id');
+       $re_user_id = $this->input->post('re_user_id');
+
+       $results = $this->user_model->update_user_reg($re_user_id,$user_group_id,$remark);         
+
+       if(!$results){
+          $this->response( array('status_code' =>400));
+          return; 
+       }
+
+       $this->response(array('status_code' =>200,'results' => $results));
+
+    }      
+
+    public function  remark_reg_user($value='')
+    {
+        $reg_user_id = $this->get('reg_user_id');
+        $remark      = $this->get('remark');
+
+
+        $results = $this->user_model->remark_reg_user($reg_user_id,$remark);         
+
+        if(!$results){
+           $this->response( array('status_code' =>400));
+           return; 
+        }
+
+        $this->response(array('status_code' =>200,'results' => $results));     
+
+    }        
 }
