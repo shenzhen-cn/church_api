@@ -89,6 +89,8 @@ $route['group/delete_spirituality'] 									    = 'group/group/delete_spiritual
 $route['group/del_comments_by_comment_id'] 								    = 'group/group/del_comments_by_comment_id';
 $route['group/get_users_by_group_id'] 								        = 'group/group/get_users_by_group_id';
 $route['group/del_prayer'] 								                    = 'group/group/del_prayer';
+$route['group/frozen_users_by_id'] 								            = 'group/group/frozen_users_by_id';
+
 
 
 //user

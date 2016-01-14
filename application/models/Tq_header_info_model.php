@@ -11,7 +11,7 @@ class Tq_header_info_model extends MY_Model {
 
 	public function findUser($user_id)
 	{		
-		$this->db->select('user.id as user_id ,email,nick,sex,group_id,user.created_by_admin_id,group_name ,group_leader_id');
+		$this->db->select('user.id as user_id ,email,nick,sex,group_id,user.created_by_admin_id,group_name ,group_leader_id,user.created_at as  user_created_at');
 		$this->db->from('church.user');
 		$this->db->join('group', 'group.id  = user.group_id ', 'left');
 		$this->db->where('user.id' , $user_id);

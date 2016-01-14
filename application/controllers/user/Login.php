@@ -11,22 +11,10 @@ class Login extends MY_Controller {
 
 	}
 
-// 	public function checkLogin()
-// 	{	
-// 		$user_name = $this->input->post('user_name');
-// 		$password = $this->input->post('password');
-// // var_dump($password);exit;
-// 		$result = $this->user_model->checkLogin($user_name,$password);
-// // var_dump($result);exit;
-// 		$this->response(array('results' => $result));
-
-// 	}
-
 	public function find()
 	{
 		$user_name_email  =	$_REQUEST['user_name_email'];
         $password		  =	$_REQUEST['password'];
-        // var_dump($password);exit;
 
         if ( ! $user_name_email || ! $password)
         {        
@@ -36,7 +24,7 @@ class Login extends MY_Controller {
         }
 
         $account = $this->user_model->find_by_email($user_name_email);
-        // var_dump($account);exit;
+
         // Check for valid user
         if ( ! $account)
         {
@@ -44,13 +32,21 @@ class Login extends MY_Controller {
             return;
         }
 
-        // var_dump($this->user_model->check_password($password));exit;
         if ( ! $this->user_model->check_password($user_name_email,$password))
         {
             $this->response(array('status_code'=> 402 ,'message' => '用户名或密码错误！'), TQ_PARAMETER_MISSING_INVALID);
             return;
         }
 
+        //冻结账号
+        $use_status = $account->use_status ;
+
+        if (empty($use_status) || $use_status != 'A') {
+
+            $this->response(array('status_code'=> 402 ,'message' => '登录异常，请联系管理员！'), TQ_PARAMETER_MISSING_INVALID);            
+            return;
+        }
+        
 
         $token = $this->user_model->find_token_by_client_id_and_account_id($account->id);
 

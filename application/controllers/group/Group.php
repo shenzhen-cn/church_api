@@ -109,7 +109,7 @@ class Group extends MY_Controller {
 	{
         $group_id =  $this->input->get('group_id');
 		$results  = $this->group_model->find_all_users_by_group_id($group_id);
-//		var_dump($results);exit;
+
 		if (!$results || empty($results)) {
 			$this->response(array('status_code'=> 400 ));
 			return;
@@ -248,6 +248,7 @@ class Group extends MY_Controller {
 		$regtime   =  date("Y-m-d",time());
 		$this_week_monday = $this->this_monday(0,false);
 		$this_week_sunday = $this->this_sunday(0,false);		
+
 		$results = $this->group_model->get_group_user_ranking($group_id,$this_week_monday,$this_week_sunday);
 
 		if (!$results) {
@@ -314,7 +315,6 @@ class Group extends MY_Controller {
 		$page = $page ? $page : 1;
 		if($page == 0) $page = 1;
 
-		//ÁéÐÞ
 		$total = $this->group_model->count_spirituality_by_user_id($group_user_id);
 
 		if($total <= 0 || !$total ){
@@ -325,8 +325,11 @@ class Group extends MY_Controller {
 		$this->load->helper('util_helper');
 		$pagination = get_pagination($total, $limit, $page);    
 
-		$results = $this->group_model->see_member($group_user_id,$user_id,$pagination['limit'], $pagination['offset'],$count,$page);
-		// var_dump($results);exit;
+		$this_week_monday = $this->this_monday(0,false);
+		$this_week_sunday = $this->this_sunday(0,false);
+
+
+		$results = $this->group_model->see_member($group_user_id,$user_id,$pagination['limit'], $pagination['offset'],$count,$page,$this_week_monday,$this_week_sunday);
 
 		if (!$results) {
 		    $this->response( array('status_code' =>400 ));
@@ -485,6 +488,21 @@ class Group extends MY_Controller {
 		$this->response(array('status_code'=> 200,'results' => $results));	
 	}
 
+	//update 1/14 
+	public function frozen_users_by_id()
+	{
+		$user_id   = $this->post("user_id");
+		$admin_id  = $this->post("admin_id");
 
+		$results = $this->group_model->frozen_users_by_id($user_id,$admin_id);
+
+		if(!$results){
+			$this->response(array('status_code' =>400 ));
+			return;
+		}
+		
+		$this->response(array('status_code'=> 200,'results' => $results));	
+
+	}
 
 }

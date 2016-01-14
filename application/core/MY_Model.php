@@ -75,7 +75,7 @@ class MY_Model extends CI_Model
 
 	public function get_user_all_info($user_id)
 	{
-		$this->db->select('user.id as user_id ,email ,sex, nick,group_id,group_name,user.created_at as user_created_at ');
+		$this->db->select('user.id as user_id ,email ,sex, nick,group_id,group_name,user.created_at as user_created_at ,user.use_status');
 		$this->db->from('user');
 		$this->db->join('group', 'group.id = user.group_id', 'left');
 		$this->db->where('user.id', $user_id);
@@ -93,6 +93,7 @@ class MY_Model extends CI_Model
 					'group_id' => $arr1->group_id,
 					'group_name' => $arr1->group_name,
 					'user_created_at' => $arr1->user_created_at,				
+					'use_status' => $arr1->use_status,									
 			);
 		}else{
 			return null;
