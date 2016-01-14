@@ -306,7 +306,7 @@ class Group extends MY_Controller {
 	{
 		$group_user_id  = $this->get('group_user_id');
 		$user_id        = $this->get('user_id');
-		$count = $this->get('count');	
+		$count 			= $this->get('count');	
 		$count          =  $count ? $count : 5;
 		$limit = $this->get('limit');	
 		$limit = $limit ? $limit : self::DEFAULT_LIMIT;
@@ -317,19 +317,19 @@ class Group extends MY_Controller {
 
 		$total = $this->group_model->count_spirituality_by_user_id($group_user_id);
 
-		if($total <= 0 || !$total ){
-		    $this->response(array('status_code'=>'400'));
-		    return;
-		}
+		// if($total <= 0 || !$total ){
+		//     $this->response(array('status_code'=>'400'));
+		//     return;
+		// }
 
 		$this->load->helper('util_helper');
 		$pagination = get_pagination($total, $limit, $page);    
 
-		$this_week_monday = $this->this_monday(0,false);
-		$this_week_sunday = $this->this_sunday(0,false);
+		// $this_week_monday = $this->this_monday(0,false);
+		// $this_week_sunday = $this->this_sunday(0,false);
 
 
-		$results = $this->group_model->see_member($group_user_id,$user_id,$pagination['limit'], $pagination['offset'],$count,$page,$this_week_monday,$this_week_sunday);
+		$results = $this->group_model->see_member($group_user_id,$user_id,$pagination['limit'], $pagination['offset'],$count,$page);
 
 		if (!$results) {
 		    $this->response( array('status_code' =>400 ));

@@ -466,7 +466,7 @@ class Group_model extends MY_Model {
 		}
 	}
 
-	public function see_member($group_user_id,$user_id='',$limit='', $offset='',$count='',$page='',$this_week_monday='',$this_week_sunday='')
+	public function see_member($group_user_id,$user_id='',$limit='', $offset='',$count='',$page='')
 	{	
 		if (!empty($group_user_id)) {
 			$spirituality_results = array(); 
@@ -539,7 +539,8 @@ class Group_model extends MY_Model {
 			$data6 = $this->db->get()->first_row();
 			$urgent_group_total_count = !empty($data6->count) ? $data6->count : "";						
 
-			$group_ranking_result = $this->spirituality_group_ranking($group_user_id,$this_week_monday,$this_week_sunday);
+			$group_ranking_result = $this->user_spirit_group_ranking_by_user_id($group_user_id);
+
 			$tq_ranking_result = $this->spirituality_tq_ranking($group_user_id);			
 
 			return  array(  
@@ -564,6 +565,68 @@ class Group_model extends MY_Model {
 			return false;
 		}
 	}
+
+	public function user_spirit_group_ranking_by_user_id($user_id)
+	{
+		$user_info = $this->get_user_all_info($user_id);
+		$temp_data =  array();
+		if ($user_info) {
+			$group_id = $user_info['group_id'];					
+			if($group_id ){
+				$result = $this->find_all_users_by_group_id($group_id);
+				$group_users  = $result['data_array'];
+				if($group_users){
+
+					foreach ($group_users as $k => $v) {
+						$group_user_id = $v['user_id']; 
+						$count_sprrits = $this->count_spirituality_by_user_id($group_user_id);						
+
+						$temp_data[] = array('group_user_id' =>$group_user_id , 
+						 	   				  'count_sprrits' =>$count_sprrits 
+						 	   				  ); 
+					}
+
+
+					usort($temp_data, function($a, $b) {
+					            $al = (int)$a['count_sprrits'];
+					            $bl = (int)$b['count_sprrits'];
+					            if ($al == $bl)
+					                return 1;
+					            return ($al > $bl) ? -1 : 1;
+					        });
+					
+					$arr = array();
+
+					foreach ($temp_data as $key1 => $value1) {
+						if(!isset($arr[$value1['count_sprrits']]))
+						{
+							$arr[$value1['count_sprrits']] = array();
+						}
+						array_push($arr[$value1['count_sprrits']], $value1['group_user_id']);
+					}
+
+					$rank = 0;
+
+					foreach ($arr as $key => $value) {
+						$rank++;
+						foreach ($value as $k1 => $v1) {
+							if($v1 == $user_id)
+								return $rank;
+						}
+					}
+
+					return $rank;
+				}
+
+			}
+
+		}
+
+		return false;
+
+
+	}
+
 
 	public function count_spirituality_by_user_id($group_user_id)
 	{
