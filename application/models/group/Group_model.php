@@ -885,15 +885,19 @@ class Group_model extends MY_Model {
 
 	private function _get_group_attence($group_id,$start_date,$end_date){
 		$users = $this->find_all_users_by_group_id($group_id);
-//		var_dump('sdfsdf');exit;
+
 //		var_dump($users);exit;
 		$counter = 0;
 		for ($i=0; $i < count($users['data_array']); $i++) { 
-			$joinDate = date('Y-m-d',strtotime($users['data_array'][$i]['created_at']));		
-			//一个user指定时间段内 参加的次数
-			$c = $this->_get_user_attence($joinDate,$start_date,$end_date);
 
-			$counter += $c;
+			if ($users['data_array'][$i]['use_status'] == "A") {
+				
+				$joinDate = date('Y-m-d',strtotime($users['data_array'][$i]['created_at']));		
+				//一个user指定时间段内 参加的次数
+				$c = $this->_get_user_attence($joinDate,$start_date,$end_date);
+
+				$counter += $c;
+			}
 		}
 		return $counter;
 	}
